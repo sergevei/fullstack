@@ -8,7 +8,11 @@ const profile = require("./routers/api/profile");
 const posts = require("./routers/api/posts");
 
 //Database config
+<<<<<<< HEAD
 const db = require("./config/key").mongoURI;
+=======
+const db = require("./config/keys").mongoURI;
+>>>>>>> 00efc1323fc1ea7a12c8695ad75bd601aa34fb29
 
 //DB Connecting
 mongoose
