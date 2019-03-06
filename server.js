@@ -21,7 +21,7 @@ mongoose
     .then(()=>console.log("DB connected"))
     .catch(err=>console.log(err));
 
-app.get("/",(rec , res )=>{
+app.get("/",(req , res )=>{
     res.send("Hello SERVER!!! !");
 });
 

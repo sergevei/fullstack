@@ -13,9 +13,9 @@ router.get("/test" , (req , res)=>res.json({msg:"test users"}));
 // @desc    Regisration
 // @access  Public 
 
+
+///Register
 router.post("/register" , (req ,res) =>{
-    console.log("great");
-    
     User.findOne({ email : req.body.email })
         .then(user =>{
             if(user){
@@ -37,9 +37,23 @@ router.post("/register" , (req ,res) =>{
                         err => { console.log(err); }
                     )
             }
-         });
-         
+         }); 
 });
 
+
+//Login 
+router.post("/login", (req,res) => {
+    User.findOne({ email : req.body.email })
+        .then(user => {
+            if(!user){
+                return res.status(404).json({ msg : "User not found"});
+            }
+            if(user.password === req.body.password ){
+                return res.json({ msg : "success"});
+            }else {
+                return res.json({ msg : "error"});
+            }
+        })
+});
 
 module.exports = router;
