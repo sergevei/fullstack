@@ -1,5 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const keys = require('../../config/key');
+const jwt = require('jsonwebtoken');
+const passport = require("passport");
 
 //Get User model
 const User = require("../../models/User");
@@ -9,9 +12,6 @@ const User = require("../../models/User");
 // @access  Public 
 router.get("/test" , (req , res)=>res.json({msg:"test users"}));
 
-// @route   api/users/test
-// @desc    Regisration
-// @access  Public 
 
 
 ///Register
@@ -49,11 +49,41 @@ router.post("/login", (req,res) => {
                 return res.status(404).json({ msg : "User not found"});
             }
             if(user.password === req.body.password ){
-                return res.json({ msg : "success"});
+                //return res.json({ msg : "success"});
+
+                //Login seccess
+                const payload = { name : user.name , email : user.email , date : user.date ,id : user._id };
+                console.log (payload);
+
+                //JWT controls 
+                jwt.sign(
+                    payload,
+                    keys.secretKey,
+                    {expiresIn : 3600 },
+                    (err,token)=>{
+                        res.json({
+                            success : "success",
+                            token : "Bearer " + token
+                        });
+                    });
+
             }else {
                 return res.json({ msg : "error"});
             }
         })
 });
+
+
+// @route   api/users/current
+// @desc    return current user
+// @access  Private 
+
+router.get(
+    '/current',
+    passport.authenticate('jwt', { session : false }),
+    (req,res)=>{
+        res.json(req.user);
+});
+
 
 module.exports = router;
