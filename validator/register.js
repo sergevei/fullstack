@@ -10,6 +10,11 @@ module.exports = function validateRegisterInput(data){
         errors.name = "Name must be between 2 and 30 characters";
     };
     
+    if(!Validator.isLength(data.handle, {min :2 , max : 20 })){
+        errors.handle = "Handle must be between 2 and 30 characters";
+    };
+    
+    
     if(!Validator.isLength(data.password, {min :7 , max : 100 })){
         errors.password =  "Password must be between 7 and 100 characters";
     };

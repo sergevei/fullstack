@@ -23,7 +23,6 @@ router.post("/register" , (req ,res) =>{
 
     const {errors , isValid }  = validateRegisterInput(req.body);
 
-
     //Check validation
     if(!isValid){
        return res.status(400).json(errors);
@@ -38,7 +37,8 @@ router.post("/register" , (req ,res) =>{
                     name : req.body.name,
                     email : req.body.email,
                     password : req.body.password,
-                    data : req.body.data
+                    data : req.body.data,
+                    handle : req.body.handle
                 });
 
                 newUser
