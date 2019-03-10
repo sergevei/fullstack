@@ -7,6 +7,7 @@ const Profile = require('../../models/Profile');
 const User = require('../../models/User');
 
 const validateProfileInput = require('../../validator/profile');
+const validateNewsInput = require('../../validator/news');
 
 // @route   api/profile/test
 // @desc    Test page
@@ -14,6 +15,21 @@ const validateProfileInput = require('../../validator/profile');
 
 router.get("/test" , (req , res)=>res.json({msg:"test profile"}));
 
+// @route   api/profile/all
+// @desc    Get profile by user_id
+// @access  Public 
+
+router.get("/all" , (req , res)=>{
+    User.find()
+        .then(profile => {
+            if(!profile){
+                res.json({error:"Profiles not found"});
+            }else{
+                res.json(profile);
+            }
+        })
+        .catch(err => {res.json(err)});
+});
 
 // @route   api/profile/handle/:handle
 // @desc    Get profile by handle
@@ -70,7 +86,7 @@ router.get('/',passport.authenticate("jwt",{session:false}),(req, res)=>{
             }
             res.json(profile);
         })
-        .catch(err => res.status(404).json(err));
+        .catch(err => res.status(404).json({err}));
 });
 
 // @route   api/profile
@@ -98,16 +114,6 @@ router.post('/',passport.authenticate("jwt",{session:false}),(req, res)=>{
     if( req.body.contactNumber ) profileFields.contactNumber  = req.body.contactNumber;
     if( req.body.status ) profileFields.status  = req.body.status;
     if( req.body.contactEmail ) profileFields.contactEmail  = req.body.contactEmail;
-
-    //Users news
-    /*
-    profileFields.news = {};
-    if( req.body.title ) profileFields.news.title  = req.body.title;
-    if( req.body.img ) profileFields.news.img  = req.body.img;
-    if( req.body.desc ) profileFields.news.desc  = req.body.desc;
-    if( req.body.allText ) profileFields.news.allText  = req.body.allText;
-    if( req.body.category ) profileFields.news.category  = req.body.category;
-    */
 
     //Users socials
     profileFields.social = {};
@@ -143,6 +149,59 @@ router.post('/',passport.authenticate("jwt",{session:false}),(req, res)=>{
         .catch(err=>{
             res.json(err);
         });
+});
+
+// @route   api/news
+// @desc    Add news
+// @access  Private 
+
+router.post('/news',passport.authenticate("jwt",{session:false}),(req, res)=>{
+    //Validation
+    const {errorsNews, isValidNews } = validateNewsInput(req.body); 
+    //Check validation//
+    if(!isValidNews){
+        return res.status(400).json(errorsNews);
+    }; 
+    Profile.findOne({ user : req.user.id })
+        .then(profile=>{
+            console.log(profile);
+            if(!profile){
+                res.json({noprofile:"errors"});
+            }else{
+                const newNews = {
+                    title : req.body.title,
+                    img : req.body.img,
+                    desc : req.body.desc,
+                    allText : req.body.allText,
+                    category : req.body.category
+                };
+                //res.json(newNews);
+                profile.news.unshift(newNews);
+                profile.save().then( newProfile => { res.json(newProfile)} );
+            }
+        })
+        .catch(err=>res.json(err));    
+});
+
+// @route   api/news
+// @desc    Delete news
+// @access  Private 
+
+router.post('/news/:id',passport.authenticate("jwt",{session:false}),(req, res)=>{
+    Profile.findOne({ user : req.user.id })
+        .then(profile=>{
+            console.log(profile);
+            if(!profile){
+                res.json({noprofile:"errors"});
+            }else{
+                //Find index
+                const removeNewsIndex=profile.news.map(item => item.id).indexOf(req.params.id);
+                profile.news.splice(removeNewsIndex, 1);
+
+                profile.save().then( newProfile => { res.json(newProfile)} );
+            }
+        })
+        .catch(err=>res.json(err));    
 });
 
 module.exports = router;

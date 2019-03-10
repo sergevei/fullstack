@@ -59,14 +59,13 @@ router.post("/login", (req,res) => {
 
     //Validation
     const {errorsLogin, isValidLogin } = validateLoginInput(req.body);
-    console.log(errorsLogin, "   " ,isValidLogin );
+    //console.log(errorsLogin, "   " ,isValidLogin );
 
     //Check validation//
     if(!isValidLogin){
         return res.status(400).json(errorsLogin);
     };
     
-
     User.findOne({ email : req.body.email })
         .then(user => {
             if(!user){
@@ -77,7 +76,7 @@ router.post("/login", (req,res) => {
 
                 //Login seccess
                 const payload = { name : user.name , email : user.email , date : user.date ,id : user._id };
-                console.log (payload);
+                //console.log (payload);
 
                 //JWT controls 
                 jwt.sign(

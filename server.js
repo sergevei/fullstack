@@ -7,7 +7,7 @@ const app = express();
 
 const users = require("./routers/api/users");
 const profile = require("./routers/api/profile");
-const posts = require("./routers/api/posts");
+const news = require("./routers/api/news");
 
 //Body-parser middleware
 app.use(bodyParser.urlencoded({extended :false}));
@@ -35,7 +35,7 @@ require('./config/passport')(passport);
 //Routers
 app.use("/api/users" , users);
 app.use("/api/profile" , profile);
-app.use("/api/posts" , posts);
+app.use("/api/news" , news);
 
 const port = process.env.PORT || 5000;
 

@@ -44,7 +44,26 @@ const profileSchema = new Schema({
         category:{
             type: String,
             required: true
-        }
+        },
+        likes: [{
+            user: {
+                type: Schema.Types.ObjectId,
+                ref: 'users'
+            }
+        }],
+        comments: [{
+            user: {
+                type: Schema.Types.ObjectId,
+                ref: 'users'
+            },
+            text: {
+                type: String,
+                required: true
+            },
+            name: {
+                type: String
+            }
+        }]
     }],
     social: {
         vk:{
