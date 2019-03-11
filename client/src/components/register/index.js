@@ -82,6 +82,21 @@ class SignIn extends Component{
     this.setState({password2: value});
   }
 
+  onSubmit(e){
+    e.preventDefault();
+
+    const newUser = {
+      name: this.state.name,
+      handle: this.state.nickname,
+      email: this.state.email,
+      password1: this.state.password1,
+      password2: this.state.password2
+    }
+
+    console.log(newUser);
+  }
+
+
   render(){
     const { classes } = this.props;
     return (
@@ -124,6 +139,7 @@ class SignIn extends Component{
               variant="contained"
               color="primary"
               className={classes.submit}
+              onSubmit={this.onSubmit.bind(this)}
             >
               Register
             </Button>
