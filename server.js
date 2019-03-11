@@ -1,12 +1,13 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+const passport = require("passport");
 
 const app = express();
 
 const users = require("./routers/api/users");
 const profile = require("./routers/api/profile");
-const posts = require("./routers/api/posts");
+const news = require("./routers/api/news");
 
 //Body-parser middleware
 app.use(bodyParser.urlencoded({extended :false}));
@@ -17,18 +18,24 @@ const db = require("./config/key").mongoURI;
 
 //DB Connecting
 mongoose
-    .connect(db)
+    .connect(db,{ useNewUrlParser: true })
     .then(()=>console.log("DB connected"))
     .catch(err=>console.log(err));
 
-app.get("/",(rec , res )=>{
-    res.send("Hello SERVER!!! !");
+app.get("/",(req , res )=>{
+    res.send("Hello SERVER!!!");
 });
+
+//Passport middleware
+app.use(passport.initialize());
+
+//Passport config
+require('./config/passport')(passport);
 
 //Routers
 app.use("/api/users" , users);
 app.use("/api/profile" , profile);
-app.use("/api/posts" , posts);
+app.use("/api/news" , news);
 
 const port = process.env.PORT || 5000;
 

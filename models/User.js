@@ -4,6 +4,12 @@ const Schema = mongoose.Schema;
 //User model
 
 const UserSchema = new Schema({
+    
+    handle: {
+        type: String,
+        required: true,
+        max: 30
+    },
     name : {
         type : String,
         required : true
