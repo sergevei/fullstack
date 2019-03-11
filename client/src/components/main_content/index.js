@@ -65,7 +65,7 @@ function MediaCard(props) {
                 <CardActionArea>
                     <CardMedia
                     className={classes.media}
-                    image="https://material-ui.com/static/images/cards/contemplative-reptile.jpg"
+                    image="https://material-ui.com/static/images/cards/paella.jpg"
                     title="Contemplative Reptile"
                     />
                 </CardActionArea>
@@ -74,10 +74,10 @@ function MediaCard(props) {
                 <CardActionArea>
                     <CardContent>
                     <Typography gutterBottom variant="h5" component="h2">
-                        Lizard
+                        Pizza
                     </Typography>
                     <Typography component="p">
-                        Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
+                        across all continents except Antarctica Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
                         across all continents except Antarctica
                     </Typography>
                     </CardContent>
@@ -100,7 +100,7 @@ function MediaCard(props) {
                 <CardActionArea>
                     <CardMedia
                     className={classes.media}
-                    image="https://material-ui.com/static/images/cards/contemplative-reptile.jpg"
+                    image="https://raw.githubusercontent.com/it-shark-pro/web-school-lectures/master/docs/images/news.png"
                     title="Contemplative Reptile"
                     />
                 </CardActionArea>
@@ -109,7 +109,7 @@ function MediaCard(props) {
                 <CardActionArea>
                     <CardContent>
                     <Typography gutterBottom variant="h5" component="h2">
-                        Lizard
+                        Google news project by Serge
                     </Typography>
                     <Typography component="p">
                         Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
