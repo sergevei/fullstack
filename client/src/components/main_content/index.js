@@ -48,7 +48,7 @@ function MediaCard(props) {
                 </CardActionArea>
                 <CardActions>
                 <Button size="small" color="primary">
-                        <i class="material-icons">
+                        <i className="material-icons">
                             favorite
                         </i>
                     </Button>
@@ -84,7 +84,7 @@ function MediaCard(props) {
                 </CardActionArea>
                 <CardActions>
                 <Button size="small" color="primary">
-                        <i class="material-icons">
+                        <i className="material-icons">
                             favorite
                         </i>
                     </Button>
@@ -119,7 +119,7 @@ function MediaCard(props) {
                 </CardActionArea>
                 <CardActions>
                 <Button size="small" color="primary">
-                        <i class="material-icons">
+                        <i className="material-icons">
                             favorite
                         </i>
                     </Button>
@@ -154,7 +154,7 @@ function MediaCard(props) {
                 </CardActionArea>
                 <CardActions>
                 <Button size="small" color="primary">
-                        <i class="material-icons">
+                        <i className="material-icons">
                             favorite
                         </i>
                     </Button>

@@ -28,14 +28,13 @@ export default  class App extends Component {
                   <p>Popular</p>
                   <Popular/>
                </div>
-                {/*
+                
                <div className="col-md-6">
                   <Login/>
                </div>
                <div className="col-md-6">
                   <Register/>
                </div>
-                */}
             </div>
         );
     }

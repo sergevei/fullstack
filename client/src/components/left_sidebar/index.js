@@ -15,10 +15,6 @@ const styles = theme => ({
   },
 });
 
-function ListItemLink(props) {
-  return <ListItem button component="a" {...props} />;
-}
-
 function SimpleList(props) {
   const { classes } = props;
   return (
@@ -26,7 +22,7 @@ function SimpleList(props) {
       <List component="nav">
         <ListItem button>
           <ListItemIcon>
-            <i class="material-icons">
+            <i className="material-icons">
                 favorite
                 </i>
           </ListItemIcon>
@@ -34,7 +30,7 @@ function SimpleList(props) {
         </ListItem>
         <ListItem button>
           <ListItemIcon>
-          <i class="material-icons">
+          <i className="material-icons">
             place
             </i>
           </ListItemIcon>
@@ -42,7 +38,7 @@ function SimpleList(props) {
         </ListItem>
         <ListItem button>
           <ListItemIcon>
-            <i class="material-icons">
+            <i className="material-icons">
                 zoom_out_map
                 </i>
           </ListItemIcon>
@@ -53,7 +49,7 @@ function SimpleList(props) {
       <List component="nav">
         <ListItem button>
           <ListItemIcon>
-            <i class="material-icons">
+            <i className="material-icons">
                 group
                 </i>
           </ListItemIcon>
@@ -61,7 +57,7 @@ function SimpleList(props) {
         </ListItem>
         <ListItem button>
           <ListItemIcon>
-          <i class="material-icons">
+          <i className="material-icons">
             record_voice_over
             </i>
           </ListItemIcon>
