@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-
+import { BrowserRouter as Router , Route} from 'react-router-dom';
 import Header from './components/header';
 import Login from './components/login';
 import Register from './components/register';
@@ -13,29 +13,31 @@ import 'bootstrap-4-grid';
 class App extends Component {
   render() {
     return (
-      <div className="row">
-        <Header/>
-        <div className="col-md-3">
-            <p>Category</p>
-            <LeftSideBar/>
+      <Router>
+        <div className="row">
+            <Header/>
+            <div className="col-md-3">
+                <Route exact path="/" component={LeftSideBar}/>
+            </div>
+            <div className="col-md-6">
+                <Route exact path="/" component={MainContent}/>
+                <Route exact path="/login" component={Login}/>
+                <Route exact path="/registration" component={Register}/>
+            </div>
+            <div className="col-md-3">
+                <Route exact path="/" component={Latest}/>
+                <Route exact path="/" component={Popular}/>
+            </div>
+              {/*
+            <div className="col-md-6">
+                <Login/>
+            </div>
+            <div className="col-md-6">
+                <Register/>
+            </div>
+              */}
         </div>
-        <div className="col-md-6">
-            <MainContent/>
-        </div>
-        <div className="col-md-3">
-            <p>Latest</p>
-            <Latest/>
-            <p>Popular</p>
-            <Popular/>
-        </div>
-          
-        <div className="col-md-6">
-            <Login/>
-        </div>
-        <div className="col-md-6">
-            <Register/>
-        </div>
-      </div>
+      </Router>
     );
   }
 }

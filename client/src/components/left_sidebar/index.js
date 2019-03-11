@@ -19,6 +19,7 @@ function SimpleList(props) {
   const { classes } = props;
   return (
     <div className={classes.root}>
+      <p>Category</p>
       <List component="nav">
         <ListItem button>
           <ListItemIcon>

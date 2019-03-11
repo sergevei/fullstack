@@ -22,6 +22,7 @@ function MediaCard(props) {
   const { classes } = props;
   return (
       <div>
+        <p>Latest</p>
         <Card className={classes.card}>
             <CardActionArea>
                 <CardContent>

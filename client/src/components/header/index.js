@@ -17,10 +17,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 //import NotificationsIcon from '@material-ui/icons/Notifications';
 //import MoreIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
-
-
-
-
+import {Link} from 'react-router-dom';
 
 const styles = theme => ({
     button: {
@@ -46,6 +43,8 @@ const styles = theme => ({
     [theme.breakpoints.up('sm')]: {
       display: 'block',
     },
+    color: "#fff",
+    textDecoration: "none"
   },
   search: {
     position: 'relative',
@@ -172,9 +171,11 @@ class PrimarySearchAppBar extends React.Component {
             <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">
               <MenuIcon />
             </IconButton>
-            <Typography className={classes.title} variant="h6" color="inherit" noWrap>
-              Google NEWS
-            </Typography>
+            <Link to="/">
+              <Typography className={classes.title} variant="h6" color="inherit" noWrap>
+                Google NEWS
+              </Typography>
+            </Link>
             <div className={classes.search}>
               <div className={classes.searchIcon}>
                 <SearchIcon />
@@ -190,12 +191,16 @@ class PrimarySearchAppBar extends React.Component {
             <div className={classes.grow} />
 
             <div className="reg-sign">
-            <Button variant="outlined"  className={classes.button}>
-                Sign In
-            </Button>
-            <Button variant="outlined" className={classes.button}>
-                Register
-            </Button>
+            <Link to="/login" >
+              <Button variant="outlined"  className={classes.button}>
+                  Sign In
+              </Button>
+            </Link>
+            <Link to="/registration" >
+              <Button variant="outlined" className={classes.button}> 
+                  Register
+              </Button>
+            </Link>
             </div>
 
             {/*
