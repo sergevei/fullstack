@@ -11,6 +11,7 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+    
 }
 .row{
   margin: 0px!important;
@@ -18,4 +19,11 @@ code {
 }
 a{
   text-decoration: none;
+}
+p{
+  line-height: 1.75;
+  font-weight: 500;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  border-radius: 4px;
+  text-transform: uppercase;
 }

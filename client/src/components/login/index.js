@@ -56,6 +56,12 @@ const styles = theme => ({
 
 class SignIn extends Component {
 
+  componentDidMount(){
+    if(this.props.auth.isAuthenticated){
+      this.props.history.push("/");
+    }
+  }
+
   state = {
     email: "",
     password: "",
@@ -102,6 +108,8 @@ class SignIn extends Component {
   render(){
     const {errors} = this.state;
     const { classes } = this.props;
+  
+
   return (
     <main className={classes.main}>
       <CssBaseline />

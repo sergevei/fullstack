@@ -13,7 +13,7 @@ import { Provider } from 'react-redux';
 import store from "./store";
 import JWTDecode from 'jwt-decode';
 import SetAuthToken from './utils/setAuthToken';
-import { setCurrentUser } from './actions/authActions'; 
+import { setCurrentUser, logOutUser } from './actions/authActions'; 
 
 //Check token
 if(localStorage.jwtToken){
@@ -25,6 +25,13 @@ if(localStorage.jwtToken){
   store.dispatch(setCurrentUser(decode));
 }
 
+const currentTime = Date.now()/1000;
+if(localStorage.jwtToken){
+  if( JWTDecode(localStorage.jwtToken).exp < currentTime ){
+    store.dispatch(logOutUser());
+    window.location.href('/login');
+  }
+}
 
 class App extends Component {
   render() {
