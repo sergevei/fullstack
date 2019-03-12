@@ -21,7 +21,12 @@ router.get("/all" , (req , res)=>{
             if(profile){
                 const allNews = [];
                 profile.map(item => allNews.push(item.news));
-                res.json(allNews);
+                
+                const onlyNews = [];
+
+                allNews.map(items => items.map( item => onlyNews.push(item)));
+
+                res.json(onlyNews);
             }else{
                 res.status(404).json({error : "Profiles not found"});
             }
