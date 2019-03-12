@@ -28,14 +28,6 @@ class App extends Component {
                 <Route exact path="/" component={Latest}/>
                 <Route exact path="/" component={Popular}/>
             </div>
-              {/*
-            <div className="col-md-6">
-                <Login/>
-            </div>
-            <div className="col-md-6">
-                <Register/>
-            </div>
-              */}
         </div>
       </Router>
     );

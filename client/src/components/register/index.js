@@ -13,7 +13,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 //import Modal from '@material-ui/core/Modal';
-
+import Axios from 'axios';
 
 
 
@@ -43,6 +43,10 @@ const styles = theme => ({
   form: {
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing.unit,
+  },
+  textErrors : {
+    color: "#f50057",
+    fontSize: 14
   },
   submit: {
     marginTop: theme.spacing.unit * 3,
@@ -85,19 +89,28 @@ class SignIn extends Component{
   onSubmit(e){
     e.preventDefault();
 
+        console.log(this.state);
+  
     const newUser = {
       name: this.state.name,
       handle: this.state.nickname,
       email: this.state.email,
-      password1: this.state.password1,
-      password2: this.state.password2
+      password: this.state.password1,
+      password2: this.state.password2,
+      errors: {}
     }
 
-    console.log(newUser);
+    Axios
+      .post("/api/users/register" , newUser)
+      .then(res => console.log(res.data))
+      .catch(err => {
+        this.setState({ errors : err.response.data } );
+      })
   }
 
 
   render(){
+    const { errors } = this.state;
     const { classes } = this.props;
     return (
       <main className={classes.main}>
@@ -114,24 +127,39 @@ class SignIn extends Component{
           <FormControl margin="normal" required fullWidth>
               <InputLabel htmlFor="username">Name</InputLabel>
               <Input id="username" name="username" autoComplete="username"  autoFocus value={this.state.name} onChange={this.onChangeName.bind(this)}/>
+              { errors.name &&
+                <label className={classes.textErrors}>{errors.name}</label>
+              }
             </FormControl>
 
             <FormControl margin="normal" required fullWidth>
               <InputLabel htmlFor="nickname">Nickname</InputLabel>
               <Input id="nickname" name="nickname" autoComplete="nickname" value={this.state.nickname} onChange={this.onChangeNickname.bind(this)}/>
+              { errors.handle &&
+                <label className={classes.textErrors}>{errors.handle}</label>
+              }
             </FormControl>
 
             <FormControl margin="normal" required fullWidth>
               <InputLabel htmlFor="email">Email Address</InputLabel>
               <Input id="email" name="email" autoComplete="email"  value={this.state.email} onChange={this.onChangeEmail.bind(this)}/>
+              { errors.email &&
+                <label className={classes.textErrors}>{errors.email}</label>
+              }
             </FormControl>
             <FormControl margin="normal" required fullWidth>
               <InputLabel htmlFor="password">Password</InputLabel>
               <Input name="password" type="password" id="password" autoComplete="current-password" value={this.state.password1} onChange={this.onChangePassword1.bind(this)}/>
+              { errors.password &&
+                <label className={classes.textErrors}>{errors.password}</label>
+              }
             </FormControl>
             <FormControl margin="normal" required fullWidth>
-              <InputLabel htmlFor="password2">Password</InputLabel>
+              <InputLabel htmlFor="password2">Confirm password</InputLabel>
               <Input name="password2" type="password2" id="password2" autoComplete="current-password" value={this.state.password2} onChange={this.onChangePassword2.bind(this)}/>
+              { errors.password2 &&
+                <label className={classes.textErrors}>{errors.password2}</label>
+              }
             </FormControl>
             <Button
               type="submit"
@@ -139,7 +167,7 @@ class SignIn extends Component{
               variant="contained"
               color="primary"
               className={classes.submit}
-              onSubmit={this.onSubmit.bind(this)}
+              onClick={this.onSubmit.bind(this)}
             >
               Register
             </Button>

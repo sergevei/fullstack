@@ -125,7 +125,7 @@ router.post('/',passport.authenticate("jwt",{session:false}),(req, res)=>{
     Profile.findOne({user : req.user.id})
         .then(profile => {
             if(profile){
-                console.log("update");
+                //console.log("update");
                 //Update user profile
                 Profile.findOneAndUpdate(
                     { user : req.user.id },
@@ -134,7 +134,7 @@ router.post('/',passport.authenticate("jwt",{session:false}),(req, res)=>{
                 ).then(profile => res.json(profile));
             }else{
                 //Create user profile
-                console.log("create");
+                //console.log("create");
                 Profile.findOne({ handle : profileFields.handle })
                     .then( profile => {
                         if(profile){
@@ -164,7 +164,7 @@ router.post('/news',passport.authenticate("jwt",{session:false}),(req, res)=>{
     }; 
     Profile.findOne({ user : req.user.id })
         .then(profile=>{
-            console.log(profile);
+            //console.log(profile);
             if(!profile){
                 res.json({noprofile:"errors"});
             }else{
@@ -190,7 +190,7 @@ router.post('/news',passport.authenticate("jwt",{session:false}),(req, res)=>{
 router.post('/news/:id',passport.authenticate("jwt",{session:false}),(req, res)=>{
     Profile.findOne({ user : req.user.id })
         .then(profile=>{
-            console.log(profile);
+            //console.log(profile);
             if(!profile){
                 res.json({noprofile:"errors"});
             }else{
