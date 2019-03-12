@@ -11,6 +11,20 @@ import Popular from './components/right_sidebar/popular';
 import 'bootstrap-4-grid';
 import { Provider } from 'react-redux';
 import store from "./store";
+import JWTDecode from 'jwt-decode';
+import SetAuthToken from './utils/setAuthToken';
+import { setCurrentUser } from './actions/authActions'; 
+
+//Check token
+if(localStorage.jwtToken){
+  //SET token
+  SetAuthToken(localStorage.jwtToken);
+  //DELETE token
+  const decode = JWTDecode(localStorage.jwtToken);
+  //Check auth
+  store.dispatch(setCurrentUser(decode));
+}
+
 
 class App extends Component {
   render() {

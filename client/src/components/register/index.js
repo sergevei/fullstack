@@ -124,15 +124,10 @@ class SignIn extends Component{
     const { errors } = this.state;
     const { classes } = this.props;
     
-    const { user } = this.props.auth;
+    //const { user } = this.props.auth;
 
     return (
       <main className={classes.main}>
-
-        { user.name &&
-          <p>{user.name}</p>
-        }
-  
         <CssBaseline />
         <Paper className={classes.paper}>
           <Avatar className={classes.avatar}>
