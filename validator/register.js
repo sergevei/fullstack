@@ -11,7 +11,7 @@ module.exports = function validateRegisterInput(data){
     };
     
     if(!Validator.isLength(data.handle, {min :2 , max : 20 })){
-        errors.handle = "Handle must be between 2 and 30 characters";
+        errors.handle = "Nickname must be between 2 and 30 characters";
     };
     
     
