@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { BrowserRouter as Router , Route} from 'react-router-dom';
+import { BrowserRouter as Router , Route ,Switch} from 'react-router-dom';
 import Header from './components/header';
 import Login from './components/login';
 import Register from './components/register';
@@ -13,7 +13,9 @@ import { Provider } from 'react-redux';
 import store from "./store";
 import JWTDecode from 'jwt-decode';
 import SetAuthToken from './utils/setAuthToken';
-import { setCurrentUser, logOutUser } from './actions/authActions'; 
+import { setCurrentUser, logOutUser } from './actions/authActions';
+import { clearCurrentProfile } from './actions/profileActions';
+import Profile from './components/profile'; 
 
 //Check token
 if(localStorage.jwtToken){
@@ -29,12 +31,15 @@ const currentTime = Date.now()/1000;
 if(localStorage.jwtToken){
   if( JWTDecode(localStorage.jwtToken).exp < currentTime ){
     store.dispatch(logOutUser());
+    store.dispatch(clearCurrentProfile());
     window.location.href('/login');
   }
 }
-
+  
 class App extends Component {
+
   render() {
+
     return (
       <Provider store = {store}>
         <Router>
@@ -44,13 +49,19 @@ class App extends Component {
                   <Route exact path="/" component={LeftSideBar}/>
               </div>
               <div className="col-md-6">
+                {/*<Switch>*/}
                   <Route exact path="/" component={MainContent}/>
                   <Route exact path="/login" component={Login}/>
                   <Route exact path="/registration" component={Register}/>
+                  {/*<Route exact component={ErrorPage}/>
+                </Switch>*/}
               </div>
               <div className="col-md-3">
                   <Route exact path="/" component={Latest}/>
                   <Route exact path="/" component={Popular}/>
+              </div>
+              <div className="col-md-12">
+                  <Route exact path="/profile" component={Profile}/>
               </div>
           </div>
         </Router>
