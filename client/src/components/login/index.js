@@ -12,8 +12,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
-import Axios from 'axios';
-
+//import Axios from 'axios';
+import { connect } from 'react-redux';
+import { loginUser } from '../../actions/authActions';
 
 const styles = theme => ({
   main: {
@@ -55,12 +56,28 @@ const styles = theme => ({
 
 class SignIn extends Component {
 
+  componentDidMount(){
+    if(this.props.auth.isAuthenticated){
+      this.props.history.push("/");
+    }
+  }
+
   state = {
     email: "",
     password: "",
     errors : {}
   }
   
+  componentWillReceiveProps(nextProps){
+    if(nextProps.auth.isAuthenticated){
+      this.props.history.push("/");
+    }
+
+    if(nextProps.errors){
+      this.setState({errors:nextProps.errors});
+    }
+  }
+
   onChangeEmail(elem){
     let value = elem.target.value;
     this.setState({email: value});
@@ -77,19 +94,22 @@ class SignIn extends Component {
       email : this.state.email,
       password : this.state.password
     }
-
+    /*
     Axios
       .post("api/users/login" , checkUser)
       .then(res => console.log(res.data))
       .catch(err => {
         this.setState({ errors : err.response.data } );
-      })
-    console.log(this.state);
+      })*/
+    
+    this.props.loginUser(checkUser);
   }
 
   render(){
     const {errors} = this.state;
     const { classes } = this.props;
+  
+
   return (
     <main className={classes.main}>
       <CssBaseline />
@@ -136,4 +156,14 @@ SignIn.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(SignIn);
+SignIn.propTypes = {
+  loginUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
+}
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  errors: state.errors
+});
+export default connect(mapStateToProps, { loginUser } )(withStyles(styles)(SignIn));

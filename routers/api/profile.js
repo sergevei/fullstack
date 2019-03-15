@@ -110,10 +110,29 @@ router.post('/',passport.authenticate("jwt",{session:false}),(req, res)=>{
     //Profile
     profileFields.user  = req.user.id;
     if( req.body.handle ) profileFields.handle  = req.body.handle;
-    if( req.body.aboutYourself ) profileFields.aboutYourself  = req.body.aboutYourself;
-    if( req.body.contactNumber ) profileFields.contactNumber  = req.body.contactNumber;
-    if( req.body.status ) profileFields.status  = req.body.status;
-    if( req.body.contactEmail ) profileFields.contactEmail  = req.body.contactEmail;
+
+    if( req.body.aboutYourself ){
+        profileFields.aboutYourself  = req.body.aboutYourself;
+    }else{
+        profileFields.aboutYourself  = "";
+    }
+
+    if( req.body.contactNumber != "") {
+        profileFields.contactNumber  = req.body.contactNumber;   
+    }else{
+        profileFields.contactNumber ="";
+    }
+
+    if( req.body.status ){
+        profileFields.status  = req.body.status;
+    }else{
+        profileFields.status  ="";
+    }
+    if( req.body.contactEmail ) {
+        profileFields.contactEmail  = req.body.contactEmail;
+    }else{
+        profileFields.contactEmail  ="";
+    }
 
     //Users socials
     profileFields.social = {};
@@ -121,6 +140,7 @@ router.post('/',passport.authenticate("jwt",{session:false}),(req, res)=>{
     if( req.body.facebook ) profileFields.social.facebook = req.body.facebook;
     if( req.body.instagram ) profileFields.social.instagram = req.body.instagram;
     if( req.body.github ) profileFields.social.github = req.body.github;
+    if( req.body.display ) profileFields.social.display = req.body.display;
 
     Profile.findOne({user : req.user.id})
         .then(profile => {

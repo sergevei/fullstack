@@ -4,6 +4,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import FormControl from '@material-ui/core/FormControl';
+import { withRouter } from 'react-router-dom';
 //import FormControlLabel from '@material-ui/core/FormControlLabel';
 //import Checkbox from '@material-ui/core/Checkbox';
 import Input from '@material-ui/core/Input';
@@ -13,8 +14,9 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 //import Modal from '@material-ui/core/Modal';
-import Axios from 'axios';
-
+//import Axios from 'axios';
+import { connect } from 'react-redux';
+import { registerUser } from '../../actions/authActions';
 
 
 const styles = theme => ({
@@ -55,6 +57,11 @@ const styles = theme => ({
 
 class SignIn extends Component{
 
+  componentDidMount(){
+    if(this.props.auth.isAuthenticated){
+      this.props.history.push("/");
+    }
+  }
   
   state = {
     name : "",
@@ -64,7 +71,11 @@ class SignIn extends Component{
     password2: "",
     errors: {}
   }
-
+  componentWillReceiveProps(nextProps){
+    if(nextProps.errors){
+      this.setState({ errors : nextProps.errors});
+    }
+  }
   onChangeName (elem) {
     let value = elem.target.value;
     this.setState({name: value});
@@ -98,20 +109,28 @@ class SignIn extends Component{
       password: this.state.password1,
       password2: this.state.password2,
       errors: {}
-    }
+    };
 
+
+    /*
     Axios
       .post("/api/users/register" , newUser)
       .then(res => console.log(res.data))
       .catch(err => {
         this.setState({ errors : err.response.data } );
       })
+    */
+
+      this.props.registerUser(newUser ,this.props.history);
   }
 
 
   render(){
     const { errors } = this.state;
     const { classes } = this.props;
+    
+    //const { user } = this.props.auth;
+
     return (
       <main className={classes.main}>
         <CssBaseline />
@@ -156,7 +175,7 @@ class SignIn extends Component{
             </FormControl>
             <FormControl margin="normal" required fullWidth>
               <InputLabel htmlFor="password2">Confirm password</InputLabel>
-              <Input name="password2" type="password2" id="password2" autoComplete="current-password" value={this.state.password2} onChange={this.onChangePassword2.bind(this)}/>
+              <Input name="password2" type="password" id="password2" autoComplete="current-password" value={this.state.password2} onChange={this.onChangePassword2.bind(this)}/>
               { errors.password2 &&
                 <label className={classes.textErrors}>{errors.password2}</label>
               }
@@ -182,4 +201,15 @@ SignIn.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(SignIn);
+SignIn.propTypes = {
+  registerUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
+}
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  errors: state.errors
+});
+
+export default connect(mapStateToProps, {registerUser})(withRouter(withStyles(styles)(SignIn)));

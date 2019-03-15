@@ -15,9 +15,12 @@ import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 //import MailIcon from '@material-ui/icons/Mail';
 //import NotificationsIcon from '@material-ui/icons/Notifications';
-//import MoreIcon from '@material-ui/icons/MoreVert';
+import MoreIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
 import {Link} from 'react-router-dom';
+import { connect } from 'react-redux';
+import { logOutUser } from '../../actions/authActions';
+import { clearCurrentProfile } from '../../actions/profileActions';
 
 const styles = theme => ({
     button: {
@@ -74,6 +77,9 @@ const styles = theme => ({
     color: 'inherit',
     width: '100%',
   },
+  inline:{
+    display: 'inline-flex'
+  },
   inputInput: {
     paddingTop: theme.spacing.unit,
     paddingRight: theme.spacing.unit,
@@ -104,6 +110,13 @@ class PrimarySearchAppBar extends React.Component {
     anchorEl: null,
     mobileMoreAnchorEl: null,
   };
+  
+
+  onLogOutClick(e){
+    e.preventDefault();
+    this.props.clearCurrentProfile();
+    this.props.logOutUser();
+  }
 
   handleProfileMenuOpen = event => {
     this.setState({ anchorEl: event.currentTarget });
@@ -127,7 +140,8 @@ class PrimarySearchAppBar extends React.Component {
     const { classes } = this.props;
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
+    const { isAuthenticated , user } = this.props.auth;
+    
     const renderMenu = (
       <Menu
         anchorEl={anchorEl}
@@ -136,8 +150,8 @@ class PrimarySearchAppBar extends React.Component {
         open={isMenuOpen}
         onClose={this.handleMenuClose}
       >
-        <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
-        <MenuItem onClick={this.handleMenuClose}>My account</MenuItem>
+        <Link to="/profile" ><MenuItem onClick={this.handleMenuClose}>Profile</MenuItem></Link>
+        <Link to="/account" ><MenuItem onClick={this.handleMenuClose}>My account</MenuItem></Link>
       </Menu>
     );
 
@@ -148,19 +162,23 @@ class PrimarySearchAppBar extends React.Component {
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         open={isMobileMenuOpen}
         onClose={this.handleMenuClose}
-      >
-        <MenuItem onClick={this.handleProfileMenuOpen}>
-          <IconButton color="inherit">
-            <AccountCircle />
-          </IconButton>
-          <p>My account</p>
-        </MenuItem>
-        <MenuItem onClick={this.handleProfileMenuOpen}>
-          <IconButton color="inherit">
-            <AccountCircle />
-          </IconButton>
-          <p>Profile</p>
-        </MenuItem>
+      > 
+        <Link to="/account" >
+          <MenuItem onClick={this.handleProfileMenuOpen}>
+            <IconButton color="inherit">
+              <AccountCircle />
+            </IconButton>
+            <p>My account</p>
+          </MenuItem>
+        </Link>
+        <Link to="/profile" >
+          <MenuItem onClick={this.handleProfileMenuOpen}>
+            <IconButton color="inherit">
+              <AccountCircle />
+            </IconButton>
+            <p>Profile</p>
+          </MenuItem>
+        </Link>
       </Menu>
     );
 
@@ -168,14 +186,17 @@ class PrimarySearchAppBar extends React.Component {
       <div className={classes.root}>
         <AppBar position="static">
           <Toolbar>
+            {isAuthenticated && 
             <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">
               <MenuIcon />
             </IconButton>
+            }
             <Link to="/">
               <Typography className={classes.title} variant="h6" color="inherit" noWrap>
                 Google NEWS
               </Typography>
             </Link>
+            {isAuthenticated && 
             <div className={classes.search}>
               <div className={classes.searchIcon}>
                 <SearchIcon />
@@ -188,38 +209,45 @@ class PrimarySearchAppBar extends React.Component {
                 }}
               />
             </div>
+            }
             <div className={classes.grow} />
-
-            <div className="reg-sign">
-            <Link to="/login" >
-              <Button variant="outlined"  className={classes.button}>
-                  Sign In
-              </Button>
-            </Link>
-            <Link to="/registration" >
-              <Button variant="outlined" className={classes.button}> 
-                  Register
-              </Button>
-            </Link>
-            </div>
-
-            {/*
-            <div className={classes.sectionDesktop}>
-              <IconButton
-                aria-owns={isMenuOpen ? 'material-appbar' : undefined}
-                aria-haspopup="true"
-                onClick={this.handleProfileMenuOpen}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
-            </div>
-            <div className={classes.sectionMobile}>
-              <IconButton aria-haspopup="true" onClick={this.handleMobileMenuOpen} color="inherit">
-                <MoreIcon />
-              </IconButton>
-            </div>
-            */}
+              {isAuthenticated &&           
+                <div className={classes.inline}>
+                  <p>Welcome, {user.name}</p>
+                  <div className={classes.sectionDesktop}>
+                    <IconButton
+                      aria-owns={isMenuOpen ? 'material-appbar' : undefined}
+                      aria-haspopup="true"
+                      onClick={this.handleProfileMenuOpen}
+                      color="inherit"
+                    >
+                      <AccountCircle />
+                    </IconButton>
+                  </div>
+                  <div className={classes.sectionMobile}>
+                    <IconButton aria-haspopup="true" onClick={this.handleMobileMenuOpen} color="inherit">
+                      <MoreIcon />
+                    </IconButton>
+                  </div>
+                  <Button variant="outlined"  className={classes.button} onClick={this.onLogOutClick.bind(this)}>
+                        LogOut
+                    </Button>
+                </div>  
+              }
+              {!isAuthenticated &&           
+                    <div className="reg-sign">
+                      <Link to="/login" >
+                        <Button variant="outlined"  className={classes.button}>
+                            Sign In
+                        </Button>
+                      </Link>
+                      <Link to="/registration" >
+                        <Button variant="outlined" className={classes.button}> 
+                            Register
+                        </Button>
+                      </Link>
+                    </div>
+              }
           </Toolbar>
         </AppBar>
         {renderMenu}
@@ -231,6 +259,13 @@ class PrimarySearchAppBar extends React.Component {
 
 PrimarySearchAppBar.propTypes = {
   classes: PropTypes.object.isRequired,
+  logOutUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  clearCurrentProfile: PropTypes.func.isRequired
 };
 
-export default withStyles(styles)(PrimarySearchAppBar);
+const mapStateToProps = (state) => ({
+  auth: state.auth
+});
+
+export default connect(mapStateToProps, {logOutUser ,clearCurrentProfile})(withStyles(styles)(PrimarySearchAppBar));
