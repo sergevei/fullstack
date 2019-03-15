@@ -8,6 +8,9 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import { getAllNews, likeNews} from '../../actions/profileActions';
+import { connect } from 'react-redux';
+import isEmpty from '../../validation/isEmpty';
 
 const styles = {
   card: {
@@ -21,180 +24,93 @@ const styles = {
 
 
 class  MediaCard extends Component {
-    /*
-    getcities = async () =>{
-        try{
-            const apiData   =  await fetch("/api/news/all");
-            const jsonData  =  await apiData.json();
-
-            const news = [];
-            jsonData.map(item=>{
-                console.log(item.img);
-                console.log(item.title);
-                news.push(item.title);
-            });
-        }catch(err){
-            console.log(err);
-        };
+    
+    componentDidMount(){
+        this.props.getAllNews();
     }
-    */
+    likeNews(id){
+        this.props.likeNews(id);
+    }
+
 render(){
     const { classes } = this.props;
         return (
             <div className="main-content">
-                {/*
-                <button onClick={this.getcities}>UPLOAD</button>
-                <ul>{this.news}</ul>
-                */}
-            <Card className={classes.card}>
-                <div className="row">
-                    <div className="col-md-5">
-                        <CardActionArea>
-                            <CardMedia
-                            className={classes.media}
-                            image="https://material-ui.com/static/images/cards/contemplative-reptile.jpg"
-                            title="Contemplative Reptile"
-                            />
-                        </CardActionArea>
-                    </div>
-                    <div className="col-md-7">
-                        <CardActionArea>
-                            <CardContent>
-                            <Typography gutterBottom variant="h5" component="h2">
-                                Lizard
-                            </Typography>
-                            <Typography component="p">
-                                Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-                                across all continents except Antarctica
-                            </Typography>
-                            </CardContent>
-                        </CardActionArea>
-                        <CardActions>
-                        <Button size="small" color="primary">
-                                <i className="material-icons">
-                                    favorite
-                                </i>
-                            </Button>
-                            <Button size="small" color="primary">
-                            Learn More
-                            </Button>
-                        </CardActions>
-                        </div>
-                    </div>
-                </Card>
-                <Card className={classes.card}>
-                <div className="row">
-                    <div className="col-md-5">
-                        <CardActionArea>
-                            <CardMedia
-                            className={classes.media}
-                            image="https://material-ui.com/static/images/cards/paella.jpg"
-                            title="Contemplative Reptile"
-                            />
-                        </CardActionArea>
-                    </div>
-                    <div className="col-md-7">
-                        <CardActionArea>
-                            <CardContent>
-                            <Typography gutterBottom variant="h5" component="h2">
-                                Pizza
-                            </Typography>
-                            <Typography component="p">
-                                across all continents except Antarctica Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-                                across all continents except Antarctica
-                            </Typography>
-                            </CardContent>
-                        </CardActionArea>
-                        <CardActions>
-                        <Button size="small" color="primary">
-                                <i className="material-icons">
-                                    favorite
-                                </i>
-                            </Button>
-                            <Button size="small" color="primary">
-                            Learn More
-                            </Button>
-                        </CardActions>
-                        </div>
-                    </div>
-                </Card><Card className={classes.card}>
-                <div className="row">
-                    <div className="col-md-5">
-                        <CardActionArea>
-                            <CardMedia
-                            className={classes.media}
-                            image="https://raw.githubusercontent.com/it-shark-pro/web-school-lectures/master/docs/images/news.png"
-                            title="Contemplative Reptile"
-                            />
-                        </CardActionArea>
-                    </div>
-                    <div className="col-md-7">
-                        <CardActionArea>
-                            <CardContent>
-                            <Typography gutterBottom variant="h5" component="h2">
-                                Google news project by Serge
-                            </Typography>
-                            <Typography component="p">
-                                Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-                                across all continents except Antarctica
-                            </Typography>
-                            </CardContent>
-                        </CardActionArea>
-                        <CardActions>
-                        <Button size="small" color="primary">
-                                <i className="material-icons">
-                                    favorite
-                                </i>
-                            </Button>
-                            <Button size="small" color="primary">
-                            Learn More
-                            </Button>
-                        </CardActions>
-                        </div>
-                    </div>
-                </Card><Card className={classes.card}>
-                <div className="row">
-                    <div className="col-md-5">
-                        <CardActionArea>
-                            <CardMedia
-                            className={classes.media}
-                            image="https://material-ui.com/static/images/cards/contemplative-reptile.jpg"
-                            title="Contemplative Reptile"
-                            />
-                        </CardActionArea>
-                    </div>
-                    <div className="col-md-7">
-                        <CardActionArea>
-                            <CardContent>
-                            <Typography gutterBottom variant="h5" component="h2">
-                                Lizard
-                            </Typography>
-                            <Typography component="p">
-                                Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-                                across all continents except Antarctica
-                            </Typography>
-                            </CardContent>
-                        </CardActionArea>
-                        <CardActions>
-                        <Button size="small" color="primary">
-                                <i className="material-icons">
-                                    favorite
-                                </i>
-                            </Button>
-                            <Button size="small" color="primary">
-                            Learn More
-                            </Button>
-                        </CardActions>
-                        </div>
-                    </div>
-                </Card>
+            {!isEmpty(this.props.news.news) &&
+                <div>
+                {
+                    this.props.news.news.map((item,index)=>(          
+                        <div key={index}>
+                        {console.log(item.likes.length)}
+                            <Card className={classes.card}>
+                                <div className="row">
+                                    <div className="col-md-5">
+                                        <CardActionArea>
+                                            <CardMedia
+                                            className={classes.media}
+                                            image="https://upload.wikimedia.org/wikipedia/commons/c/c2/Alexandria_Waterfront_%282347809660%29.jpg"
+                                            //image={item.img}
+                                            title="Contemplative Reptile"
+                                            />
+                                        </CardActionArea>
+                                    </div>
+                                    <div className="col-md-7">
+                                        <CardActionArea>
+                                            <CardContent>
+                                            <Typography gutterBottom variant="h5" component="h2">
+                                                {item.title}
+                                            </Typography>
+                                            <Typography component="p" style={{color:"rgb(171, 171, 171)"}}>
+                                                {item.category}
+                                            </Typography>
+                                            <Typography component="p">
+                                                {item.desc}
+                                            </Typography>
+                                            </CardContent>
+                                        </CardActionArea>
+                                        <CardActions>
+                                        <Button size="small" color="primary" onClick={this.likeNews.bind(this, item._id)}>
+                                            <i className="material-icons">
+                                                favorite
+                                            </i>
+                                            {item.likes.length}
+                                        </Button>
+                                        <Button size="small" color="primary">
+                                            <i className="material-icons">
+                                                forum
+                                            </i>
+                                            {item.comments.length}
+                                        </Button>
+                                        <Button size="small" color="primary">
+                                            Learn More
+                                            </Button>
+                                        </CardActions>
+                                        </div>
+                                    </div>
+                                </Card>
+                        </div>          
+                    ))
+                }
+                </div>
+            }
             </div>
         );
     }
 }
 
 MediaCard.propTypes = {
-  classes: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
+    getAllNews : PropTypes.func.isRequired,
+    likeNews : PropTypes.func.isRequired,
+    profile : PropTypes.object.isRequired,
+    auth : PropTypes.object.isRequired,
+    news : PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(MediaCard);
+const mapStateToProps = state => ({
+    profile: state.profile,
+    auth: state.auth,
+    news: state.news
+});
+
+export default connect(mapStateToProps, { getAllNews ,likeNews })(withStyles(styles)(MediaCard));

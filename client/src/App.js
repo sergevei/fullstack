@@ -19,6 +19,7 @@ import Profile from './components/profile';
 import PrivateRoute from './components/private_router';
 import CreateProfile from './components/create_profile';
 import EditProfile from './components/edit_profile';
+import AddNews from './components/add_new_news';
 //import ErrorPage from './components/error_page_404';
 
 //Check token
@@ -61,6 +62,7 @@ class App extends Component {
                   <Route exact path="/registration" component={Register}/>
                   <PrivateRoute exact path="/create-profile" component={CreateProfile}/>
                   <PrivateRoute exact path="/edit-profile" component={EditProfile}/>
+                  <PrivateRoute exact path="/add-new-news" component={AddNews}/>
                 </Switch>
               </div>
               <div className="col-md-3">

@@ -59,13 +59,13 @@ router.post('/like/:id',passport.authenticate("jwt",{session:false}),(req, res)=
                                     //Like Unlike methob
                                     let trueFalse = 0;
                                     let indexLikeUnlike = 0;
+                                    
+                                    const b=(profile.user).toString();
 
                                     item.likes.map(oneLike => {
-                                        const a=parseInt(oneLike._id);
-                                        const b=parseInt(profile.user);
-                                        if(a==b){
+                                        const a=(oneLike._id).toString();
+                                        if(a===b){
                                             trueFalse = 1;
-                                            console.log("wtf");
                                             indexLikeUnlike = item.likes.indexOf(oneLike);
                                         };
                                         console.log("index likes - "+oneLike._id+" test num "+ profile.user+ " ->  " +trueFalse );
@@ -101,7 +101,7 @@ router.post('/like/:id',passport.authenticate("jwt",{session:false}),(req, res)=
 });
 
 
-// @route   api/news//comments/:id
+// @route   api/news/comments/:id
 // @desc    Comments news
 // @access  Public
 
