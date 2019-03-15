@@ -77,6 +77,9 @@ const profileSchema = new Schema({
         },
         github:{
             type: String
+        },
+        display:{
+            type: String
         }
     }
 });

@@ -101,8 +101,8 @@ router.post('/like/:id',passport.authenticate("jwt",{session:false}),(req, res)=
 });
 
 
-// @route   api/news/like/:id
-// @desc    Like news
+// @route   api/news//comments/:id
+// @desc    Comments news
 // @access  Public
 
 router.post('/comments/:id',passport.authenticate("jwt",{session:false}),(req, res)=>{

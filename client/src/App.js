@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { BrowserRouter as Router , Route ,Switch} from 'react-router-dom';
+import { BrowserRouter as Router , Route , Switch} from 'react-router-dom';
 import Header from './components/header';
 import Login from './components/login';
 import Register from './components/register';
@@ -16,6 +16,10 @@ import SetAuthToken from './utils/setAuthToken';
 import { setCurrentUser, logOutUser } from './actions/authActions';
 import { clearCurrentProfile } from './actions/profileActions';
 import Profile from './components/profile'; 
+import PrivateRoute from './components/private_router';
+import CreateProfile from './components/create_profile';
+import EditProfile from './components/edit_profile';
+//import ErrorPage from './components/error_page_404';
 
 //Check token
 if(localStorage.jwtToken){
@@ -46,22 +50,29 @@ class App extends Component {
           <div className="row">
               <Header/>
               <div className="col-md-3">
-                  <Route exact path="/" component={LeftSideBar}/>
+                <Switch>
+                    <PrivateRoute exact path="/" component={LeftSideBar}/>
+                </Switch>
               </div>
               <div className="col-md-6">
-                {/*<Switch>*/}
-                  <Route exact path="/" component={MainContent}/>
+                <Switch>
+                  <PrivateRoute exact path="/" component={MainContent}/>
                   <Route exact path="/login" component={Login}/>
                   <Route exact path="/registration" component={Register}/>
-                  {/*<Route exact component={ErrorPage}/>
-                </Switch>*/}
+                  <PrivateRoute exact path="/create-profile" component={CreateProfile}/>
+                  <PrivateRoute exact path="/edit-profile" component={EditProfile}/>
+                </Switch>
               </div>
               <div className="col-md-3">
-                  <Route exact path="/" component={Latest}/>
-                  <Route exact path="/" component={Popular}/>
+                <Switch>
+                  <PrivateRoute exact path="/" component={Latest}/>
+                  <PrivateRoute exact path="/" component={Popular}/>
+                </Switch>
               </div>
               <div className="col-md-12">
-                  <Route exact path="/profile" component={Profile}/>
+                <Switch>
+                  <PrivateRoute exact path="/profile" component={Profile}/>
+                </Switch>           
               </div>
           </div>
         </Router>
