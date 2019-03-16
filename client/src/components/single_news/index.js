@@ -1,25 +1,27 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getSingleNews} from '../../actions/profileActions';
+import { getSingleNews, likeNewsSingle, commentNewsSingle} from '../../actions/profileActions';
 import isEmpty from '../../validation/isEmpty';
 import Preloader from '../preloader';
 import { withStyles } from '@material-ui/core/styles';
-import classnames from 'classnames';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
-import Collapse from '@material-ui/core/Collapse';
-import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import red from '@material-ui/core/colors/red';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import FormControl from '@material-ui/core/FormControl';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Paper from '@material-ui/core/Paper';
 
 const styles = theme => ({
     card: {
@@ -45,20 +47,60 @@ const styles = theme => ({
     avatar: {
       backgroundColor: red[500],
     },
+    main: {
+      width: 'auto',
+      display: 'block', // Fix IE 11 issue.
+      marginLeft: theme.spacing.unit * 3,
+      marginRight: theme.spacing.unit * 3,
+      [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
+        //width: 400,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+      },
+    },
+    paper: {
+      marginTop: theme.spacing.unit * 8,
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
+    },
+    avatar: {
+      margin: theme.spacing.unit,
+      backgroundColor: theme.palette.secondary.main,
+    },
+    form: {
+      width: '100%', // Fix IE 11 issue.
+      marginTop: theme.spacing.unit,
+    },
+    submit: {
+      marginTop: theme.spacing.unit * 3,
+    },
   });
   
 
 class SingleNews extends Component {
-
+    state={
+      textComment: ""
+    }
     componentDidMount(){
         this.props.getSingleNews(this.props.match.params.id);
     }
-    state = { expanded: false };
-
-    handleExpandClick = () => {
-        this.setState(state => ({ expanded: !state.expanded }));
-    };
-
+    likeNews(id ,newsId){
+        this.props.likeNewsSingle(id , newsId);
+    }
+    onSubmit(id ,newsId){
+        const createNewComment = {
+          textComment: this.state.textComment,
+          inputName: this.props.auth.user.name
+        }
+        this.props.commentNewsSingle(id, newsId, createNewComment);
+    }
+    onChangeComment(elem){
+      let value = elem.target.value;
+      this.setState({textComment: value});
+      //console.log(this.state.textComment);
+    }
   render() {
     const single  = this.props.news.singlenews;
     let SingleNewsLet;
@@ -87,7 +129,7 @@ class SingleNews extends Component {
                             </Typography>
                             </CardContent>
                             <CardActions className={classes.actions} disableActionSpacing>
-                            <IconButton aria-label="Add to favorites">
+                            <IconButton aria-label="Add to favorites" onClick={this.likeNews.bind(this, single._id , this.props.match.params.id)}>
                                 <FavoriteIcon />
                                 {single.likes.length}
                             </IconButton>
@@ -99,8 +141,8 @@ class SingleNews extends Component {
                             </IconButton>
                             </CardActions>
                         </Card>
-                    {single.comments.map(elem => (
-                            <Card style={{marginTop:25}} className={classes.card}>
+                    {single.comments.map((elem , key)=> (
+                            <Card key = {key} style={{marginTop:25}} className={classes.card}>
                                 <div>
                                     <h3 style={{margin:15}}>{elem.name}</h3>
                                     <p style={{margin:15}}>{elem.text}</p>
@@ -108,6 +150,27 @@ class SingleNews extends Component {
                             </Card>
                         ))
                     }
+                        <main className={classes.main}>
+                          <CssBaseline />
+                          <Paper className={classes.paper}>
+                            <form className={classes.form}>
+                              <FormControl margin="normal" required fullWidth>
+                                <InputLabel htmlFor="comments">Comments</InputLabel>
+                                <Input name="comments" id="comments" autoComplete="comments" onChange={this.onChangeComment.bind(this)}/>
+                              </FormControl>
+                              <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                color="primary"
+                                className={classes.submit}
+                                onClick={this.onSubmit.bind(this, single._id , this.props.match.params.id)}
+                              >
+                                Add comment
+                              </Button >
+                            </form>
+                          </Paper>
+                        </main>
                     </div>
                 }
             </div>
@@ -126,7 +189,9 @@ SingleNews.propTypes = {
     auth : PropTypes.object.isRequired,
     getSingleNews : PropTypes.func.isRequired,
     news : PropTypes.object.isRequired,
-    classes: PropTypes.object.isRequired
+    classes : PropTypes.object.isRequired,
+    likeNewsSingle : PropTypes.func.isRequired,
+    commentNewsSingle : PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -134,4 +199,4 @@ const mapStateToProps = state => ({
     news: state.news
 });
 
-export default connect(mapStateToProps, {getSingleNews})(withStyles(styles)(SingleNews));
+export default connect(mapStateToProps, {getSingleNews, likeNewsSingle, commentNewsSingle })(withStyles(styles)(SingleNews));

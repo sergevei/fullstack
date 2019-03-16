@@ -70,11 +70,13 @@ class App extends Component {
               </div>
               <div className="col-md-3">
                 <Switch>
-                  <PrivateRoute exact path="/" component={Latest}/>
-                  <PrivateRoute exact path="/" component={Popular}/>
-                  <PrivateRoute path="/single-news/" component={Latest}/>
-                  <PrivateRoute path="/single-news/" component={Popular}/>
-                </Switch>
+                    <PrivateRoute exact path="/" component={Latest}/>
+                    <PrivateRoute path="/single-news/" component={Latest}/>
+                  </Switch>
+                  <Switch>
+                    <PrivateRoute exact path="/" component={Popular}/>
+                    <PrivateRoute path="/single-news/" component={Popular}/>
+                  </Switch>
               </div>
               <div className="col-md-12">
                 <Switch>

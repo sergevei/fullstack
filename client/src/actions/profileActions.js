@@ -90,6 +90,34 @@ export const likeNews = (id) => dispatch => {
             })
         )
 }
+//Like news single
+export const likeNewsSingle = (id , newsId) => dispatch => {
+    Axios
+        .post(`/api/news/like/${id}`)
+        .then( res => {
+            dispatch(getSingleNews(newsId));
+        })
+        .catch( err =>
+            dispatch({
+                type: GET_SINGLE_NEWS,
+                payload: {}
+            })
+        )
+}
+//Like news single
+export const commentNewsSingle = (id, newsId, newComment) => dispatch => {
+    Axios
+        .post(`/api/news/comments/${id}`,newComment)
+        .then( res => {
+            dispatch(getSingleNews(newsId));
+        })
+        .catch( err =>
+            dispatch({
+                type: GET_SINGLE_NEWS,
+                payload: {}
+            })
+        )
+}
 
 //PROFILE loading
 export const setProfileLoading = () => {
