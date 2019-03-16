@@ -1,5 +1,5 @@
 import Axios from 'axios';
-import {GET_PROFILE, PROFILE_LOADING, GET_ERRORS, CLEAR_CURRENT_PROFILE, CREATE_PROFILE, SET_CURRENT_USER ,GET_NEWS,LOADING_NEWS} from './types';
+import {GET_PROFILE, PROFILE_LOADING, GET_ERRORS, CLEAR_CURRENT_PROFILE, CREATE_PROFILE, SET_CURRENT_USER ,GET_NEWS,LOADING_NEWS ,GET_SINGLE_NEWS} from './types';
 
 //GET current profile
 export const getCurrentProfile = () => dispatch => {
@@ -19,7 +19,7 @@ export const getCurrentProfile = () => dispatch => {
             })
         )
 }
-//NEWS loading
+//NEWSES loading
 export const getAllNews = () => dispatch => {
     dispatch(setNewsLoading());
     Axios
@@ -33,6 +33,23 @@ export const getAllNews = () => dispatch => {
         .catch( err =>
             dispatch({
                 type: GET_NEWS,
+                payload: {}
+            })
+        )
+}
+export const getSingleNews = (id) => dispatch => {
+    dispatch(setNewsLoading());
+    Axios
+        .get(`/api/news/${id}`)
+        .then( res =>
+            dispatch({
+                type: GET_SINGLE_NEWS,
+                payload: res.data
+            })
+        )
+        .catch( err =>
+            dispatch({
+                type: GET_SINGLE_NEWS,
                 payload: {}
             })
         )

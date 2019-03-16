@@ -1,7 +1,7 @@
-import {GET_NEWS, LOADING_NEWS} from '../actions/types';
+import {GET_NEWS, LOADING_NEWS ,GET_SINGLE_NEWS} from '../actions/types';
 
 const initialState = {
-    allnews : [],
+    singlenews : {},
     news : {},
     loading : true
 }
@@ -17,6 +17,12 @@ export default function( state = initialState, action){
             return {
                 ...state,
                 news: action.payload,
+                loading: false
+            }
+        case GET_SINGLE_NEWS:
+            return {
+                ...state,
+                singlenews: action.payload,
                 loading: false
             }
         default:

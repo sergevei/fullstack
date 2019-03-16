@@ -46,8 +46,8 @@ router.post('/like/:id',passport.authenticate("jwt",{session:false}),(req, res)=
                         const allNews = [];
                         profileNews.map(item => allNews.push(item.news));
 
-                        const onlyNews = [];
-                        allNews.map(item => item.map(items => onlyNews.push(items)));
+                        //const onlyNews = [];
+                        //allNews.map(item => item.map(items => onlyNews.push(items)));
 
                         let newsLikes = 0;
 
@@ -157,3 +157,24 @@ router.post('/comments/:id',passport.authenticate("jwt",{session:false}),(req, r
 
 
 module.exports = router;
+
+// @route   api/news/:id
+// @desc    Single news
+// @access  Public
+router.get('/:id',passport.authenticate("jwt",{session:false}),(req, res)=>{
+            Profile.find()
+                .then(profileNews => {
+                    if(profileNews){
+                        const allNews = [];
+                        profileNews.map(item => allNews.push(item.news));
+
+                        allNews.map(items=> {
+                            items.map(item => {
+                                if(item._id == req.params.id){
+                                    res.json(item);
+                                }
+                            });
+                        });
+                    }
+                }).catch(err=>res.status(404).json(item));
+            });

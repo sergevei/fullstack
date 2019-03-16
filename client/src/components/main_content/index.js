@@ -11,6 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import { getAllNews, likeNews} from '../../actions/profileActions';
 import { connect } from 'react-redux';
 import isEmpty from '../../validation/isEmpty';
+import {Link} from 'react-router-dom';
 
 const styles = {
   card: {
@@ -41,7 +42,6 @@ render(){
                 {
                     this.props.news.news.map((item,index)=>(          
                         <div key={index}>
-                        {console.log(item.likes.length)}
                             <Card className={classes.card}>
                                 <div className="row">
                                     <div className="col-md-5">
@@ -81,9 +81,11 @@ render(){
                                             </i>
                                             {item.comments.length}
                                         </Button>
-                                        <Button size="small" color="primary">
-                                            Learn More
+                                        <Link to={"/single-news/"+item._id}>
+                                            <Button size="small" color="primary">
+                                                Read more
                                             </Button>
+                                        </Link>
                                         </CardActions>
                                         </div>
                                     </div>

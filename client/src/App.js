@@ -20,6 +20,7 @@ import PrivateRoute from './components/private_router';
 import CreateProfile from './components/create_profile';
 import EditProfile from './components/edit_profile';
 import AddNews from './components/add_new_news';
+import SingleNews from './components/single_news';
 //import ErrorPage from './components/error_page_404';
 
 //Check token
@@ -53,6 +54,7 @@ class App extends Component {
               <div className="col-md-3">
                 <Switch>
                     <PrivateRoute exact path="/" component={LeftSideBar}/>
+                    <PrivateRoute path="/single-news/" component={LeftSideBar}/>
                 </Switch>
               </div>
               <div className="col-md-6">
@@ -63,12 +65,15 @@ class App extends Component {
                   <PrivateRoute exact path="/create-profile" component={CreateProfile}/>
                   <PrivateRoute exact path="/edit-profile" component={EditProfile}/>
                   <PrivateRoute exact path="/add-new-news" component={AddNews}/>
+                  <PrivateRoute exact path="/single-news/:id" component={SingleNews}/>
                 </Switch>
               </div>
               <div className="col-md-3">
                 <Switch>
                   <PrivateRoute exact path="/" component={Latest}/>
                   <PrivateRoute exact path="/" component={Popular}/>
+                  <PrivateRoute path="/single-news/" component={Latest}/>
+                  <PrivateRoute path="/single-news/" component={Popular}/>
                 </Switch>
               </div>
               <div className="col-md-12">
