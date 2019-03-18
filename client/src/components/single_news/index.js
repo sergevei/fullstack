@@ -127,16 +127,42 @@ class SingleNews extends Component {
                             <Typography component="p">
                                 {single.allText}
                             </Typography>
+                            <Typography component="h5">
+                                {single.author}
+                            </Typography>
                             </CardContent>
                             <CardActions className={classes.actions} disableActionSpacing>
-                            <IconButton aria-label="Add to favorites" onClick={this.likeNews.bind(this, single._id , this.props.match.params.id)}>
-                                <FavoriteIcon />
+                            <IconButton color="primary" aria-label="Add to favorites" onClick={this.likeNews.bind(this, single._id , this.props.match.params.id)}>
+                              { single.likes.length === 0 &&
+                                    <i className="material-icons">
+                                      favorite_border
+                                    </i>
+                              }
+                              { single.likes.length != 0 &&
+                                    <i className="material-icons">
+                                      favorite
+                                    </i>
+                              }
+                              {
+                                single.likes.map((userLikes, key) => {
+                                  if(userLikes._id === this.props.auth.user.id){
+                                      return <i key={key} style={{color:"#f50057"}} className="material-icons">favorite</i>
+                                  }
+                                })
+                              }
                                 {single.likes.length}
                             </IconButton>
-                            <IconButton aria-label="Share">
-                                <i className="material-icons">
-                                    question_answer
-                                </i>
+                            <IconButton aria-label="Share" color="primary">
+                                { single.comments.length === 0 &&
+                                  <i className="material-icons">
+                                    chat_bubble_outline
+                                  </i>
+                                }
+                                { single.comments.length != 0 &&
+                                  <i className="material-icons">
+                                    forum
+                                  </i>
+                                }
                                 {single.comments.length}
                             </IconButton>
                             </CardActions>

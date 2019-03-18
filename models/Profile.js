@@ -25,6 +25,13 @@ const profileSchema = new Schema({
         type: String
     },
     news: [{
+        user: {
+            type: Schema.Types.ObjectId,
+            ref: 'users'
+        },
+        author : {
+            type:String
+        },
         title: {
             type:String,
             required: true

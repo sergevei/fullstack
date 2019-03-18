@@ -196,7 +196,7 @@ class PrimarySearchAppBar extends React.Component {
                 Google NEWS
               </Typography>
             </Link>
-            {isAuthenticated && 
+            {/*isAuthenticated && 
             <div className={classes.search}>
               <div className={classes.searchIcon}>
                 <SearchIcon />
@@ -209,7 +209,7 @@ class PrimarySearchAppBar extends React.Component {
                 }}
               />
             </div>
-            }
+              */}
             <div className={classes.grow} />
               {isAuthenticated &&           
                 <div className={classes.inline}>

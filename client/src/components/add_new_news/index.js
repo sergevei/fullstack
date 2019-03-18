@@ -86,6 +86,7 @@ class AddNewNews extends Component {
       e.preventDefault();
 
       const createNews = {
+        author: this.props.auth.user.name,
         img: this.state.img,
         desc: this.state.desc,
         allText: this.state.allText,
@@ -112,32 +113,47 @@ class AddNewNews extends Component {
             <Typography component="h1" variant="h5">
               Create news
             </Typography>
-
+            
             <form className={classes.form}>
 
               <FormControl margin="normal" required fullWidth>
                 <InputLabel htmlFor="title">Title</InputLabel>
                 <Input id="title" name="title" autoComplete="title" autoFocus value={this.state.title} onChange={this.onChangeTitle.bind(this)}/>
+                { this.props.errors.title &&
+                  <label  style={{color: "#f50057"}}>{this.props.errors.title }</label>
+                }
               </FormControl>
 
               <FormControl margin="normal" required fullWidth>
                 <InputLabel htmlFor="image">Image</InputLabel>
                 <Input id="image" name="image" autoComplete="image"  value={this.state.img} onChange={this.onChangeImg.bind(this)}/>
+                { this.props.errors.img &&
+                  <label  style={{color: "#f50057"}}>{this.props.errors.img }</label>
+                }
               </FormControl>
 
               <FormControl margin="normal" required fullWidth>
                 <InputLabel htmlFor="description">Description</InputLabel>
                 <Input id="description" name="description" autoComplete="description"  value={this.state.desc} onChange={this.onChangeDesc.bind(this)}/>
+                { this.props.errors.desc &&
+                  <label  style={{color: "#f50057"}}>{this.props.errors.desc }</label>
+                }
               </FormControl>
 
               <FormControl margin="normal" required fullWidth>
                 <InputLabel htmlFor="text">Text</InputLabel>
                 <Input id="text" name="text" autoComplete="text"  value={this.state.allText} onChange={this.onChangeText.bind(this)}/>
+                { this.props.errors.allText &&
+                  <label  style={{color: "#f50057"}}>{this.props.errors.allText }</label>
+                }
               </FormControl>
 
               <FormControl margin="normal" required fullWidth>
                 <InputLabel htmlFor="category">Category</InputLabel>
                 <Input id="category" name="category" autoComplete="category"  value={this.state.category} onChange={this.onChangeCategory.bind(this)}/>
+                { this.props.errors.category &&
+                  <label  style={{color: "#f50057"}}>{this.props.errors.category }</label>
+                }
               </FormControl>
 
               

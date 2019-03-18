@@ -6,6 +6,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
+import Card from '@material-ui/core/Card';
 
 const styles = theme => ({
   root: {
@@ -19,7 +20,8 @@ function SimpleList(props) {
   const { classes } = props;
   return (
     <div className={classes.root}>
-      <p>Category</p>
+          <p>Category</p>
+    <Card>
       <List component="nav">
         <ListItem button>
           <ListItemIcon>
@@ -65,6 +67,7 @@ function SimpleList(props) {
           <ListItemText primary="Find profile" />
         </ListItem>
       </List>
+    </Card>
     </div>
   );
 }

@@ -31,14 +31,14 @@ router.get("/all" , (req , res)=>{
         .catch(err => {res.json(err)});
 });
 
-// @route   api/profile/handle/:handle
+// @route   api/profile/nickname/:nickname
 // @desc    Get profile by handle
 // @access  Public 
 
-router.get("/handle/:handle" , (req , res)=>{
+router.get("/nickname/:nickname" , (req , res)=>{
     const errors ={};
     //console.log(req.params.handle);
-    User.findOne({ handle: req.params.handle})
+    Profile.findOne({ handle: req.params.nickname})
         .then(profile => {
             console.log(profile);
             if(!profile){
@@ -189,6 +189,7 @@ router.post('/news',passport.authenticate("jwt",{session:false}),(req, res)=>{
                 res.json({noprofile:"errors"});
             }else{
                 const newNews = {
+                    author : req.body.author,
                     title : req.body.title,
                     img : req.body.img,
                     desc : req.body.desc,

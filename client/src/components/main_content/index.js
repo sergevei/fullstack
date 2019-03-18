@@ -23,7 +23,6 @@ const styles = {
   },
 };
 
-
 class  MediaCard extends Component {
     
     componentDidMount(){
@@ -66,19 +65,43 @@ render(){
                                             <Typography component="p">
                                                 {item.desc}
                                             </Typography>
+                                            <Typography component="h5">
+                                                {item.author}
+                                            </Typography>
                                             </CardContent>
                                         </CardActionArea>
                                         <CardActions>
                                         <Button size="small" color="primary" onClick={this.likeNews.bind(this, item._id)}>
-                                            <i className="material-icons">
-                                                favorite
-                                            </i>
+                                            { item.likes.length === 0 &&
+                                                <i className="material-icons">
+                                                    favorite_border
+                                                </i>
+                                            }
+                                            { item.likes.length != 0 &&
+                                                <i className="material-icons">
+                                                    favorite
+                                                </i>
+                                            }
+                                            {
+                                                item.likes.map((userLikes, key) => {
+                                                    if(userLikes._id === this.props.auth.user.id){
+                                                        return <i key={key} style={{color:"#f50057"}} className="material-icons">favorite</i>
+                                                    }
+                                                })
+                                            }
                                             {item.likes.length}
                                         </Button>
                                         <Button size="small" color="primary">
-                                            <i className="material-icons">
-                                                forum
-                                            </i>
+                                            { item.comments.length === 0 &&
+                                                <i className="material-icons">
+                                                    chat_bubble_outline
+                                                </i>
+                                            }
+                                            { item.comments.length != 0 &&
+                                                <i className="material-icons">
+                                                    forum
+                                                </i>
+                                            }
                                             {item.comments.length}
                                         </Button>
                                         <Link to={"/single-news/"+item._id}>

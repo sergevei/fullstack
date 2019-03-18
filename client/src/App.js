@@ -38,7 +38,7 @@ if(localStorage.jwtToken){
   if( JWTDecode(localStorage.jwtToken).exp < currentTime ){
     store.dispatch(logOutUser());
     store.dispatch(clearCurrentProfile());
-    window.location.href('/login');
+    window.location('/login');
   }
 }
   
@@ -69,10 +69,10 @@ class App extends Component {
                 </Switch>
               </div>
               <div className="col-md-3">
-                <Switch>
+                {/*<Switch>
                     <PrivateRoute exact path="/" component={Latest}/>
                     <PrivateRoute path="/single-news/" component={Latest}/>
-                  </Switch>
+                </Switch>*/}
                   <Switch>
                     <PrivateRoute exact path="/" component={Popular}/>
                     <PrivateRoute path="/single-news/" component={Popular}/>

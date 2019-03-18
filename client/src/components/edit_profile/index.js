@@ -189,6 +189,9 @@ class CreateProfile extends Component {
               <FormControl margin="normal" required fullWidth>
                 <InputLabel htmlFor="nickname">Nickname</InputLabel>
                 <Input id="nickname" name="nickname" autoComplete="nickname" value={this.state.nickname} onChange={this.onChangeNickname.bind(this)}/>
+                { this.props.errors.handle &&
+                  <label style={{color: "#f50057"}}>{this.props.errors.handle}</label>
+                }
               </FormControl>
               <FormControl margin="normal" required fullWidth>
                 <InputLabel htmlFor="number">Number</InputLabel>
@@ -227,7 +230,7 @@ class CreateProfile extends Component {
                 className={classes.submit}
                 onClick={this.onSubmit.bind(this)}
               >
-                Create
+                EDIT
               </Button>
             </form>
           </Paper>

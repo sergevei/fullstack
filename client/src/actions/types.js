@@ -10,3 +10,4 @@ export const LOADING_NEWS           = "LOADING_NEWS;";
 export const GET_NEWSES             = "GET_NEWSES;";
 export const GET_NEWS               = "GET_NEWS;";
 export const GET_SINGLE_NEWS        = "GET_SINGLE_NEWS";
+export const GET_POPULAR_NEWS       = "GET_POPULAR_NEWS";
