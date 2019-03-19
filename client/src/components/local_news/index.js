@@ -8,7 +8,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import { getWorldNews, likeNews} from '../../actions/profileActions';
+import { getAllNews, likeNews} from '../../actions/profileActions';
 import { connect } from 'react-redux';
 import isEmpty from '../../validation/isEmpty';
 import {Link} from 'react-router-dom';
@@ -68,14 +68,14 @@ const styles = theme => ({
   }
 });
 
-class MediaCard extends Component {
+class  MediaCard extends Component {
 
     state = {
         search: ""
     }
     
     componentDidMount(){
-        this.props.getWorldNews();
+        this.props.getAllNews();
     }
     likeNews(id){
         this.props.likeNews(id);
@@ -90,7 +90,7 @@ render(){
     const { classes } = this.props;
         return (
             <div className="main-content">
-                <p style={{textAlign:"center"}}>World news</p>
+                <p style={{textAlign:"center"}}>Local news</p>
 
                 <div style={{boxShadow:"0px 1px 3px 0px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 2px 1px -1px rgba(0,0,0,0.12)",padding:"15px 0", margin:"0 25px"}}>
                     <div className={classes.search}>
@@ -108,12 +108,12 @@ render(){
                     </div>
                 </div>
 
-            {!isEmpty(this.props.news.world) &&
+            {!isEmpty(this.props.news.news) &&
                 <div>
                 {
-                    this.props.news.world.map((item,index)=>(          
+                    this.props.news.news.map((item,index)=>(          
                         <div key={index}>
-                        { !(item.title.indexOf(this.state.search) ===-1) &&
+                            { (!(item.title.indexOf(this.state.search) ===-1) && item.category ==="local") &&
                             <Card className={classes.card}>
                                 <div className="row">
                                     <div className="col-md-5">
@@ -186,7 +186,8 @@ render(){
                                         </CardActions>
                                         </div>
                                     </div>
-                                </Card>}
+                                </Card>
+                            }
                         </div>          
                     ))
                 }
@@ -199,7 +200,7 @@ render(){
 
 MediaCard.propTypes = {
     classes: PropTypes.object.isRequired,
-    getWorldNews : PropTypes.func.isRequired,
+    getAllNews : PropTypes.func.isRequired,
     likeNews : PropTypes.func.isRequired,
     profile : PropTypes.object.isRequired,
     auth : PropTypes.object.isRequired,
@@ -212,4 +213,4 @@ const mapStateToProps = state => ({
     news: state.news
 });
 
-export default connect(mapStateToProps, { getWorldNews ,likeNews })(withStyles(styles)(MediaCard));
+export default connect(mapStateToProps, { getAllNews ,likeNews })(withStyles(styles)(MediaCard));

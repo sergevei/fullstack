@@ -34,6 +34,7 @@ function SimpleList(props) {
           <ListItemText primary="Popular news" />
         </ListItem>
       */}
+      <Link to="/local-news">
         <ListItem button>
           <ListItemIcon>
           <i className="material-icons">
@@ -42,7 +43,8 @@ function SimpleList(props) {
           </ListItemIcon>
           <ListItemText primary="Local news" />
         </ListItem>
-        <Link to="world-news">
+        </Link>
+        <Link to="/world-news">
           <ListItem button>
             <ListItemIcon>
               <i className="material-icons">
@@ -55,14 +57,16 @@ function SimpleList(props) {
       </List>
       <Divider />
       <List component="nav">
-        <ListItem button>
-          <ListItemIcon>
-            <i className="material-icons">
-                group
-                </i>
-          </ListItemIcon>
-          <ListItemText primary="All users" />
-        </ListItem>
+        <Link to="/find-user">
+          <ListItem button>
+            <ListItemIcon>
+              <i className="material-icons">
+                  group
+                  </i>
+            </ListItemIcon>
+            <ListItemText primary="All users" />
+          </ListItem>
+        </Link>
         <ListItem button>
           <ListItemIcon>
           <i className="material-icons">

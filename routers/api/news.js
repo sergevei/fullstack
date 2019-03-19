@@ -93,30 +93,7 @@ router.get("/world" , (req , res)=>{
         })
 });
 
-// @route   api/news/world
-// @desc    Popular news
-// @access  Public
-router.get("/world" , (req , res)=>{
-    Profile.find()
-        .then(profile => {
-            if(profile){
-                const allNews = [];
-                const onlyNews = [];
 
-                profile.map(item => allNews.push(item.news));
-                allNews.map(items => items.map( item => onlyNews.push(item)));
-                const worldNews = [];
-                onlyNews.map((item, key) => {
-                    if(item.category==="world"){
-                        worldNews.push(item);
-                    }
-                });
-                res.json(worldNews);
-            }else{
-                res.status(404).json({error : "News not found"});
-            }
-        })
-});
 
 // @route   api/news/like/:id
 // @desc    Like Unlike news

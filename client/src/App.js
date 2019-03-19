@@ -22,6 +22,8 @@ import EditProfile from './components/edit_profile';
 import AddNews from './components/add_new_news';
 import SingleNews from './components/single_news';
 import WorldNews from './components/world_news';
+import LocalNews from './components/local_news';
+import FindUser from './components/find_user';
 //import ErrorPage from './components/error_page_404';
 
 //Check token
@@ -57,6 +59,7 @@ class App extends Component {
                     <PrivateRoute exact path="/" component={LeftSideBar}/>
                     <PrivateRoute path="/single-news/" component={LeftSideBar}/>
                     <PrivateRoute path="/world-news/" component={LeftSideBar}/>
+                    <PrivateRoute path="/local-news/" component={LeftSideBar}/>
                 </Switch>
               </div>
               <div className="col-md-6">
@@ -69,6 +72,9 @@ class App extends Component {
                   <PrivateRoute exact path="/add-new-news" component={AddNews}/>
                   <PrivateRoute exact path="/single-news/:id" component={SingleNews}/>
                   <PrivateRoute exact path="/world-news" component={WorldNews}/>
+                  <PrivateRoute exact path="/local-news" component={LocalNews}/>
+
+                  <PrivateRoute exact path="/find-user" component={FindUser}/>
                 </Switch>
               </div>
               <div className="col-md-3">
@@ -80,6 +86,7 @@ class App extends Component {
                     <PrivateRoute exact path="/" component={Popular}/>
                     <PrivateRoute path="/single-news/" component={Popular}/>
                     <PrivateRoute path="/world-news" component={Popular}/>
+                    <PrivateRoute path="/local-news" component={Popular}/>
                   </Switch>
               </div>
               <div className="col-md-12">
