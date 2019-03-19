@@ -6,7 +6,7 @@ import Login from './components/login';
 import Register from './components/register';
 import LeftSideBar from './components/left_sidebar';
 import MainContent from './components/main_content';
-import Latest from './components/right_sidebar/latest';
+//import Latest from './components/right_sidebar/latest';
 import Popular from './components/right_sidebar/popular';
 import 'bootstrap-4-grid';
 import { Provider } from 'react-redux';
@@ -21,6 +21,7 @@ import CreateProfile from './components/create_profile';
 import EditProfile from './components/edit_profile';
 import AddNews from './components/add_new_news';
 import SingleNews from './components/single_news';
+import WorldNews from './components/world_news';
 //import ErrorPage from './components/error_page_404';
 
 //Check token
@@ -55,6 +56,7 @@ class App extends Component {
                 <Switch>
                     <PrivateRoute exact path="/" component={LeftSideBar}/>
                     <PrivateRoute path="/single-news/" component={LeftSideBar}/>
+                    <PrivateRoute path="/world-news/" component={LeftSideBar}/>
                 </Switch>
               </div>
               <div className="col-md-6">
@@ -66,6 +68,7 @@ class App extends Component {
                   <PrivateRoute exact path="/edit-profile" component={EditProfile}/>
                   <PrivateRoute exact path="/add-new-news" component={AddNews}/>
                   <PrivateRoute exact path="/single-news/:id" component={SingleNews}/>
+                  <PrivateRoute exact path="/world-news" component={WorldNews}/>
                 </Switch>
               </div>
               <div className="col-md-3">
@@ -76,6 +79,7 @@ class App extends Component {
                   <Switch>
                     <PrivateRoute exact path="/" component={Popular}/>
                     <PrivateRoute path="/single-news/" component={Popular}/>
+                    <PrivateRoute path="/world-news" component={Popular}/>
                   </Switch>
               </div>
               <div className="col-md-12">

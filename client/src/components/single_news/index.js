@@ -12,15 +12,15 @@ import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import red from '@material-ui/core/colors/red';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import Avatar from '@material-ui/core/Avatar';
+//import red from '@material-ui/core/colors/red';
+//import FavoriteIcon from '@material-ui/icons/Favorite';
+//import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+//import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 
 const styles = theme => ({
@@ -44,9 +44,9 @@ const styles = theme => ({
     expandOpen: {
       transform: 'rotate(180deg)',
     },
-    avatar: {
+    /*avatar: {
       backgroundColor: red[500],
-    },
+    },*/
     main: {
       width: 'auto',
       display: 'block', // Fix IE 11 issue.
@@ -138,7 +138,7 @@ class SingleNews extends Component {
                                       favorite_border
                                     </i>
                               }
-                              { single.likes.length != 0 &&
+                              { single.likes.length !== 0 &&
                                     <i className="material-icons">
                                       favorite
                                     </i>
@@ -146,8 +146,9 @@ class SingleNews extends Component {
                               {
                                 single.likes.map((userLikes, key) => {
                                   if(userLikes._id === this.props.auth.user.id){
-                                      return <i key={key} style={{color:"#f50057"}} className="material-icons">favorite</i>
+                                      return <i key={key} style={{color:"#f50057"}} className="material-icons">favorite</i>;
                                   }
+                                  return null;
                                 })
                               }
                                 {single.likes.length}
@@ -158,7 +159,7 @@ class SingleNews extends Component {
                                     chat_bubble_outline
                                   </i>
                                 }
-                                { single.comments.length != 0 &&
+                                { single.comments.length !== 0 &&
                                   <i className="material-icons">
                                     forum
                                   </i>

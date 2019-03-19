@@ -8,112 +8,40 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import { getAllNews, likeNews} from '../../actions/profileActions';
+import { getWorldNews, likeNews} from '../../actions/profileActions';
 import { connect } from 'react-redux';
 import isEmpty from '../../validation/isEmpty';
 import {Link} from 'react-router-dom';
-import SearchIcon from '@material-ui/icons/Search';
-import InputBase from '@material-ui/core/InputBase';
-import { fade } from '@material-ui/core/styles/colorManipulator';
 
-const styles = theme => ({
-    card: {
-        //maxWidth: 345,
-        margin: 25
-      },
-      media: {
-        height: 200,
-      },
-  search: {
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
-    '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
-    },
-    marginRight: theme.spacing.unit * 2,
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing.unit * 3,
-      width: 'auto',
-    },
+const styles = {
+  card: {
+    //maxWidth: 345,
+    margin: 25
   },
-  searchIcon: {
-    width: theme.spacing.unit * 9,
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+  media: {
+    height: 200,
   },
-  inputRoot: {
-    color: 'inherit',
-    width: '100%',
-  },
-  inline:{
-    display: 'inline-flex'
-  },
-  inputInput: {
-    paddingTop: theme.spacing.unit,
-    paddingRight: theme.spacing.unit,
-    paddingBottom: theme.spacing.unit,
-    paddingLeft: theme.spacing.unit * 10,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      //width: 200,
-    },
-  }
-});
+};
 
-class  MediaCard extends Component {
-
-    state = {
-        search: ""
-    }
+class MediaCard extends Component {
     
     componentDidMount(){
-        this.props.getAllNews();
+        this.props.getWorldNews();
     }
     likeNews(id){
         this.props.likeNews(id);
-    }
-    onChangeSearch(elem){
-        let value = elem.target.value;
-        this.setState({search: value});
-        //console.log(this.state.search);
     }
 
 render(){
     const { classes } = this.props;
         return (
             <div className="main-content">
-                <p style={{textAlign:"center"}}>All news</p>
-
-                <div style={{boxShadow:"0px 1px 3px 0px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 2px 1px -1px rgba(0,0,0,0.12)",padding:"15px 0", margin:"0 25px"}}>
-                    <div className={classes.search}>
-                        <div className={classes.searchIcon}>
-                            <SearchIcon />
-                        </div>
-                        <InputBase
-                            placeholder="Search…"
-                            onChange={this.onChangeSearch.bind(this)}
-                            classes={{
-                                root: classes.inputRoot,
-                                input: classes.inputInput,
-                              }}
-                        />
-                    </div>
-                </div>
-
-            {!isEmpty(this.props.news.news) &&
+                <p style={{textAlign:"center"}}>World news</p>
+            {!isEmpty(this.props.news.world) &&
                 <div>
                 {
-                    this.props.news.news.map((item,index)=>(          
+                    this.props.news.world.map((item,index)=>(          
                         <div key={index}>
-                            { !(item.title.indexOf(this.state.search) ===-1) &&
                             <Card className={classes.card}>
                                 <div className="row">
                                     <div className="col-md-5">
@@ -187,7 +115,6 @@ render(){
                                         </div>
                                     </div>
                                 </Card>
-                            }
                         </div>          
                     ))
                 }
@@ -200,7 +127,7 @@ render(){
 
 MediaCard.propTypes = {
     classes: PropTypes.object.isRequired,
-    getAllNews : PropTypes.func.isRequired,
+    getWorldNews : PropTypes.func.isRequired,
     likeNews : PropTypes.func.isRequired,
     profile : PropTypes.object.isRequired,
     auth : PropTypes.object.isRequired,
@@ -213,4 +140,4 @@ const mapStateToProps = state => ({
     news: state.news
 });
 
-export default connect(mapStateToProps, { getAllNews ,likeNews })(withStyles(styles)(MediaCard));
+export default connect(mapStateToProps, { getWorldNews ,likeNews })(withStyles(styles)(MediaCard));

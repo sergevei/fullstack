@@ -1,5 +1,15 @@
 import Axios from 'axios';
-import {GET_PROFILE, PROFILE_LOADING, GET_ERRORS, CLEAR_CURRENT_PROFILE, CREATE_PROFILE, SET_CURRENT_USER ,GET_NEWS,LOADING_NEWS ,GET_SINGLE_NEWS, GET_POPULAR_NEWS} from './types';
+import { 
+            GET_PROFILE,
+            PROFILE_LOADING, 
+            GET_ERRORS, 
+            CLEAR_CURRENT_PROFILE, 
+            SET_CURRENT_USER,
+            GET_NEWS,LOADING_NEWS,
+            GET_SINGLE_NEWS,
+            GET_POPULAR_NEWS,
+            GET_WORLD_NEWS
+        } from './types';
 
 //GET current profile
 export const getCurrentProfile = () => dispatch => {
@@ -37,8 +47,26 @@ export const getAllNews = () => dispatch => {
             })
         )
 }
-export const getSingleNews = (id) => dispatch => {
+//NEWSES loading
+export const getWorldNews = () => dispatch => {
     dispatch(setNewsLoading());
+    Axios
+        .get('/api/news/world')
+        .then( res =>
+            dispatch({
+                type: GET_WORLD_NEWS,
+                payload: res.data
+            })
+        )
+        .catch( err =>
+            dispatch({
+                type: GET_WORLD_NEWS,
+                payload: {}
+            })
+        )
+}
+export const getSingleNews = (id) => dispatch => {
+    //dispatch(setNewsLoading());
     dispatch(getPopularNews());
     Axios
         .get(`/api/news/${id}`)
@@ -84,6 +112,7 @@ export const likeNews = (id) => dispatch => {
         .then( res => {
             dispatch(getAllNews());
             dispatch(getPopularNews());
+            dispatch(getWorldNews());
         })
         .catch( err =>
             dispatch({

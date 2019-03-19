@@ -41,7 +41,7 @@ class MediaCard extends Component{
           {!isEmpty(news.popular) &&
             <div>
               { news.popular.map((item,index)=>(        
-                            <Card className={classes.card} key={index}>
+                            <Card className={classes.card} key={index} style={{marginTop:25}}>
                               <CardActionArea>
                                   <CardContent>
                                   <Typography gutterBottom variant="h5" component="h2">
@@ -61,8 +61,22 @@ class MediaCard extends Component{
                                                     if(userLikes._id === this.props.auth.user.id){
                                                         return <i key={key} style={{color:"#f50057"}} className="material-icons">favorite</i>
                                                     }
+                                                    return null;
                                                 })
                                             }
+                                        </Button>
+                                        <Button size="small" color="primary">
+                                            { item.comments.length === 0 &&
+                                                <i className="material-icons">
+                                                    chat_bubble_outline
+                                                </i>
+                                            }
+                                            { item.comments.length !== 0 &&
+                                                <i className="material-icons">
+                                                    forum
+                                                </i>
+                                            }
+                                            {item.comments.length}
                                         </Button>
                                   <Link to={"/single-news/"+item._id}>
                                       <Button size="small" color="primary" onClick={this.reloadSinglePage.bind(this, item._id)}>
