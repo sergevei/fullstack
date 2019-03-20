@@ -14,10 +14,18 @@ import CardContent from '@material-ui/core/CardContent';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import { fade } from '@material-ui/core/styles/colorManipulator';
+import Button from '@material-ui/core/Button';
+import {Link} from 'react-router-dom';
+import isEmpty from '../../validation/isEmpty';
 
 const styles = theme => ({
     card: {
       //maxWidth: 400,
+      '&:hover .MuiCardContent-root': {
+            display:"block",
+            transition:"0.7s",
+            maxHeight: "400px"
+      }
     },
     media: {
       height: 0,
@@ -80,6 +88,11 @@ const styles = theme => ({
         [theme.breakpoints.up('md')]: {
         //width: 200,
         },
+    },
+    CardContent: {
+        display:"block",
+        maxHeight:"0px",
+        transition:"0.7s",
     }
   });
 
@@ -103,8 +116,9 @@ class FindUser extends Component {
     const users = this.props.users.users;
     let SingleUserLet;
     const { classes } = this.props;
+    const TransitionCart = "MuiCardContent-root "+classes.CardContent;
 
-    if( users === null || this.props.users.loading || !this.props.auth.isAuthenticated ){
+    if(isEmpty(users)){
         SingleUserLet = <Preloader/>;
     }else{
         SingleUserLet = (
@@ -125,14 +139,23 @@ class FindUser extends Component {
                             />
                         </div>
                     </div>
+                    <div>
+                        { this.state.search !== "" &&
+                            <Typography component="p">
+                                MAYBE YOU SEARCHED
+                            </Typography>
+                        }
+                    </div>
                 </div>
                 { 
                     users.map( (user,key) => (
                         <div key={key}>
 
-                            {!(user._id.indexOf(this.state.search) ===-1 
-                            && user.email.indexOf(this.state.search) ===-1 
-                            && user._id.indexOf(this.state.search) ===-1) &&
+                            {!(
+                                         user.name.indexOf(this.state.search) ===-1 
+                                    &&   user.email.indexOf(this.state.search) ===-1 
+                                    &&   user.id.indexOf(this.state.search) ===-1
+                            ) &&
 
                             <Card className={classes.card} style={{margin:"5px 0"}}>
                                 <CardHeader
@@ -146,10 +169,52 @@ class FindUser extends Component {
                                 title={user.name}
                                 subheader={user.email}
                                 />
-                                 <CardContent style={{textAlign:"center"}}>
+                                <Link to={"/profile/"+user.id}>
+                                            <Button size="small" color="primary" variant="contained">
+                                                GO TO PROFILE
+                                            </Button>
+                                </Link>
+
+                                 <CardContent style={{textAlign:"center"}} className={TransitionCart}>
                                     <Typography component="p">
-                                        ID: {user._id}
+                                        ID: {user.id}
                                     </Typography>
+                                    {!user.profile &&
+                                        <div>
+                                            <Typography component="p">
+                                                Phone: {user.contactNumber}
+                                            </Typography>
+                                            <Typography component="p">
+                                                About: {user.aboutYourself}
+                                            </Typography>
+                                            <Typography component="p">
+                                                Status: {user.status}
+                                            </Typography>
+                                            <Typography component="p">
+                                                News posted: {user.numNews}
+                                            </Typography>
+                                            <div>
+                                                {user.social.vk &&
+                                                    <p>VK: {user.social.vk}</p>
+                                                }
+                                                {user.social.facebook &&
+                                                    <p>Facebook: {user.social.facebook}</p>
+                                                }
+                                                {user.social.instagram &&
+                                                    <p>instagram: {user.social.instagram}</p>
+                                                }
+                                                {user.social.github &&
+                                                    <p>github: {user.social.github}</p>
+                                                }
+                                            </div>
+                                        </div>
+                                    }
+
+                                    {user.profile &&
+                                        <Typography component="p">
+                                             {user.profile}
+                                        </Typography>
+                                    }
                                 </CardContent>
                             </Card>}
                         </div>

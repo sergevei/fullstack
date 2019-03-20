@@ -22,6 +22,7 @@ import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 //import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
+import {Link} from 'react-router-dom';
 
 const styles = theme => ({
     card: {
@@ -171,7 +172,9 @@ class SingleNews extends Component {
                     {single.comments.map((elem , key)=> (
                             <Card key = {key} style={{marginTop:25}} className={classes.card}>
                                 <div>
-                                    <h3 style={{margin:15}}>{elem.name}</h3>
+                                    <Link to={"/profile/"+elem.user}>
+                                      <h3 style={{margin:15}}>{elem.name}</h3>
+                                    </Link>
                                     <p style={{margin:15}}>{elem.text}</p>
                                 </div>
                             </Card>

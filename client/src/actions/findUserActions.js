@@ -8,7 +8,7 @@ import {
 export const getAllUsers = () => dispatch => {
     dispatch(setUsersLoading());
         Axios
-        .get('/api/profile/all')
+        .get('/api/profile/all-info')
         .then( res =>
             dispatch({
                 type: GET_USER,
@@ -18,6 +18,23 @@ export const getAllUsers = () => dispatch => {
         .catch( err =>
             dispatch({
                 type: GET_USER,
+                payload: {}
+            })
+        )
+}
+export const getSingleUser = (id) => dispatch => {
+    dispatch(setUsersLoading());
+    Axios
+        .get(`/api/profile/${id}`)
+        .then( res =>
+            dispatch({
+                type: GET_SINGLE_USER,
+                payload: res.data
+            })
+        )
+        .catch( err =>
+            dispatch({
+                type: GET_SINGLE_USER,
                 payload: {}
             })
         )

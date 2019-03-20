@@ -31,6 +31,108 @@ router.get("/all" , (req , res)=>{
         .catch(err => {res.json(err)});
 });
 
+// @route   api/profile/all-info
+// @desc    Get profile by user_id
+// @access  Public 
+router.get("/all-info" , (req , res)=>{
+    User.find()
+        .then(user => {
+            Profile.find()
+                .then(profile => {
+                    const userWithProfile = [];
+                    let userProfileData;
+
+                    user.map(
+                        oneUser => {
+                            profile.map(
+                                oneProfile => {
+                                    if((oneUser._id).toString() === (oneProfile.user).toString()){
+                                        userProfileData = {
+                                            name:           oneUser.name, 
+                                            contactNumber:  oneProfile.contactNumber,
+                                            aboutYourself:  oneProfile.aboutYourself,
+                                            status:         oneProfile.status,
+                                            numNews:        oneProfile.news.length,
+                                            social:         oneProfile.social,
+                                            id:             oneUser._id,
+                                            email:          oneUser.email   
+                                        }
+                                        userWithProfile.push(userProfileData);
+                                    }
+                                }
+                            )
+                        }
+                    )
+
+                    let CheckProfile = false;
+                    user.map(
+                        oneUser => {
+                            profile.map(
+                                oneProfile => {
+                                    if((oneUser._id).toString() === (oneProfile.user).toString()){
+                                        CheckProfile = true;
+                                    }
+                                }
+                            )
+                            if(!CheckProfile){
+                                userProfileData = {
+                                    name:           oneUser.name, 
+                                    id:             oneUser._id,
+                                    email:          oneUser.email,
+                                    profile:        "User hasn't profile yet."  
+                                }
+                                userWithProfile.push(userProfileData);
+                            }
+                            CheckProfile = false;
+                        }
+                    )
+                    res.json(userWithProfile);
+                })
+                .catch(err => {res.json(err)})
+        })
+        .catch(err => {res.json(err)})
+    })
+// @route   api/profile/:id
+// @desc    Get profile by user_id
+// @access  Public 
+router.get("/:id" , (req , res)=>{
+    const userWithProfile = [];
+    let userProfileData;
+
+    User.findOne({ _id: req.params.id})
+        .then(oneUser => {
+            Profile.findOne({ user: req.params.id})
+                .then(oneProfile => {
+                    if(oneProfile){
+                        userProfileData = {
+                            name:           oneUser.name, 
+                            contactNumber:  oneProfile.contactNumber,
+                            aboutYourself:  oneProfile.aboutYourself,
+                            status:         oneProfile.status,
+                            numNews:        oneProfile.news.length,
+                            social:         oneProfile.social,
+                            id:             oneUser._id,
+                            email:          oneUser.email   
+                        }
+                        userWithProfile.push(userProfileData);
+                    }else{
+                        userProfileData = {
+                            name:           oneUser.name, 
+                            id:             oneUser._id,
+                            email:          oneUser.email,
+                            profile:        "User hasn't profile yet."  
+                        }
+                        userWithProfile.push(userProfileData);
+                    }
+                    res.json(userWithProfile);
+                })
+                .catch(err => {res.json(err)})
+        })
+        .catch(err => {res.json(err)})
+    })
+
+
+
 // @route   api/profile/nickname/:nickname
 // @desc    Get profile by handle
 // @access  Public 

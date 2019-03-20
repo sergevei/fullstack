@@ -18,6 +18,12 @@ export default function( state = initialState, action){
                 users: action.payload,
                 loading: false
             }
+        case GET_SINGLE_USER:
+            return {
+                ...state,
+                singleUser: action.payload,
+                loading: false
+            }
         default:
             return state;
     }

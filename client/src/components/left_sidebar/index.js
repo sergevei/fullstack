@@ -67,6 +67,7 @@ function SimpleList(props) {
             <ListItemText primary="All users" />
           </ListItem>
         </Link>
+        {/*
         <ListItem button>
           <ListItemIcon>
           <i className="material-icons">
@@ -75,6 +76,7 @@ function SimpleList(props) {
           </ListItemIcon>
           <ListItemText primary="Find profile" />
         </ListItem>
+        */}
       </List>
     </Card>
     </div>
